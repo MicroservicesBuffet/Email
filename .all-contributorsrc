@@ -1,0 +1,26 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "ignatandrei",
+      "name": "Andrei Ignat",
+      "avatar_url": "https://avatars.githubusercontent.com/u/153982?v=4",
+      "profile": "http://msprogrammer.serviciipeweb.ro/",
+      "contributions": [
+        "infra",
+        "test",
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "Email",
+  "projectOwner": "MicroservicesBuffet",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
