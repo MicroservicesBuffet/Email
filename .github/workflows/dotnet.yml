@@ -27,8 +27,10 @@ jobs:
     - name: dotnet build and publish
       run: |
         cd src
+        cd EmailMS
         dotnet restore
         dotnet build --configuration Release
+        cd EmailMS
         dotnet publish -c Release -o '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myapp' 
     # - name: Test
     #  run: dotnet test --no-build --verbosity normal
