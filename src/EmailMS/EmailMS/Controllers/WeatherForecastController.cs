@@ -24,7 +24,7 @@ namespace EmailMS.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<string> Get()
+        public string Get()
         {
             return "test";
         }
