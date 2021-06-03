@@ -10,7 +10,7 @@ namespace TestEmail
     public class TestCreateEmail
     {
         [Fact]
-        [Trait("Integration", "1")]
+        [Trait("RealTest", "1")]
         public void TestSendEmailGmail()
         {
 
@@ -35,12 +35,19 @@ namespace TestEmail
         }
 
         [Fact]
+        [Trait("RealTest", "0")]
         public void TestSendEmailSmtp4Dev()
         {
             var ms = new EmailSmtpClientMS();
             var client = new SmtpClient(ms.Host, ms.Port);
-            client.Send("ignat.andrei@gmail.com", "ignatandrei@yahoo.com", "test", "testbody");
-            Console.WriteLine("Sent");
+            try
+            {
+                client.Send("ignat.andrei@gmail.com", "ignatandrei@yahoo.com", "test", "testbody");
+            }
+            catch(Exception ex)
+            {
+                Assert.True(false, $"did you do : dotnet tool restore + dotnet smpt4dev ? error {ex.Message}");
+            }
         }
     }
 }

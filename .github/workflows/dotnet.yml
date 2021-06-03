@@ -23,7 +23,12 @@ jobs:
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }} 
 
-  # Run dotnet build and publish
+    - name: prepare tools
+      run: |
+        cd src
+        cd EmailMS
+        dotnet tool restore
+
     - name: dotnet restore
       run: |
         cd src
@@ -35,6 +40,13 @@ jobs:
         cd src
         cd EmailMS
         dotnet build --configuration Release
+
+    - name: test
+      run: |
+        cd src
+        cd EmailMS
+        start dotnet smtp4dev
+        dotnet test --filter "RealTest=0"
 
     - name: dotnet publish
       run: |
