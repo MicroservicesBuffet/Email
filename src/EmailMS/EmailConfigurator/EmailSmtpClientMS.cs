@@ -3,8 +3,14 @@ using System;
 
 namespace EmailConfigurator
 {
-    public abstract class EmailSmtpClientMS: IConfigurableMS
+    public class EmailSmtpClientMS: IConfigurableMS
     {
+        public EmailSmtpClientMS()
+        {
+            Port = 25;
+            Host = "localhost";
+            Type=this.GetType().Name; 
+        }
         public string Name { get; set ; }
 
 
