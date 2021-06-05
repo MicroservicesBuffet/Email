@@ -2,7 +2,7 @@ name: .NET
 
 env:
   AZURE_WEBAPP_NAME: buffetemail    # set this to your application's name
-  AZURE_WEBAPP_PACKAGE_PATH: 'src/EmailMS/EmailMS'      # set this to the path to your web app project, defaults to the repository root
+  AZURE_WEBAPP_PACKAGE_PATH: 'src/EmailMS/SenderEmail'      # set this to the path to your web app project, defaults to the repository root
   DOTNET_VERSION: '5.0.x'           # set this to the dot net version to use
 
 on:
@@ -52,7 +52,7 @@ jobs:
       run: |
         cd src
         cd EmailMS
-        cd EmailMS
+        cd SenderEmail
         dotnet publish -c Release -o myapp 
   
     # - name: Test
