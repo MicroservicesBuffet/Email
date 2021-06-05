@@ -1,6 +1,6 @@
-﻿using EmailConfigurator;
-using EmailSmtpClientGmail;
+﻿using EmailSmtpClientGmail;
 using LightBDD.Framework;
+using SimpleSMTP;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,5 +1,5 @@
 ﻿using ConfigureMS;
-using EmailConfigurator;
+using SimpleSMTP;
 using System;
 using System.Net;
 using System.Net.Mail;

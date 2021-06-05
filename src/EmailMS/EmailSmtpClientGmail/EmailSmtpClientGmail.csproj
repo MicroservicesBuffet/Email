@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EmailConfigurator\EmailConfigurator.csproj" />
+    <ProjectReference Include="..\SimpleSMTP\SimpleSMTP.csproj" />
   </ItemGroup>
 
 </Project>

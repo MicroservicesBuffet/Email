@@ -1,5 +1,3 @@
-using EmailConfigurator;
-using EmailSmtpClientGmail;
 using LightBDD.Framework;
 using LightBDD.Framework.Scenarios;
 using LightBDD.XUnit2;
