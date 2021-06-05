@@ -25,12 +25,20 @@ namespace EmailConfigurator
         public string Host { get; set; }
         public int Port { get; set; }
 
+        public string Description { 
+            get 
+            {
+                return $"simple email sender with {Host}:{Port}";
+            } 
+        }
+        
+
         public virtual SmtpClient Client()
         {
             return new SmtpClient(Host, Port);
         }
 
-        public async Task<int> LoadData(RepoMS repo)
+        public virtual async Task<int> LoadData(RepoMS repo)
         {
 
             var data = await repoMS.GetItem<EmailSmtpClientMS>(this.Type);
@@ -40,7 +48,7 @@ namespace EmailConfigurator
             return 1;
         }
 
-        public Task<int> SaveData(RepoMS repo)
+        public virtual Task<int> SaveData(RepoMS repo)
         {
             return repoMS.SaveData<EmailSmtpClientMS>(this);
         }

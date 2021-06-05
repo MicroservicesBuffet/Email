@@ -32,5 +32,6 @@ namespace ConfigureMS
         string Name { get; set; }
         string Type{ get;  }
 
+        string Description { get; }
     }
 }
