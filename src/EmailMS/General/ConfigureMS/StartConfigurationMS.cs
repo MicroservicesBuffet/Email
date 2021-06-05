@@ -11,9 +11,13 @@ namespace ConfigureMS
 
         Task<bool> IsComplete { get; set; }
 
-        Task<int> SaveData(RepoMS repo);
 
         Task<int> ConfigureAgain();
+    }
+    public interface SaveAndLoadData
+    {
+        Task<int> SaveData(RepoMS repo);
+        Task<int> LoadData(RepoMS repo);
     }
 
     public interface RepoMS
@@ -26,7 +30,7 @@ namespace ConfigureMS
 
     public interface IConfigurableMS {
         string Name { get; set; }
-        string Type{ get; set; }
+        string Type{ get;  }
 
     }
 }

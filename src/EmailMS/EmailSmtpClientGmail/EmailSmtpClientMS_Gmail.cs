@@ -1,4 +1,5 @@
-﻿using EmailConfigurator;
+﻿using ConfigureMS;
+using EmailConfigurator;
 using System;
 using System.Net;
 using System.Net.Mail;
