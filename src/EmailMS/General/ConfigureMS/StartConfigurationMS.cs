@@ -13,10 +13,13 @@ namespace ConfigureMS
 
         Task<int> SaveData(RepoMS repo);
 
+        Task<int> ConfigureAgain();
     }
 
     public interface RepoMS
     {
+        Task<T> GetItem<T>(string id);
+        Task<T[]> GetAllData<T>();
         Task<int> SaveData<T>(T t);
         Task<int> SaveData<T>(T[] t);
     }
