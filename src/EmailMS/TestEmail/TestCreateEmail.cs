@@ -1,5 +1,8 @@
 using EmailConfigurator;
 using EmailSmtpClientGmail;
+using LightBDD.Framework;
+using LightBDD.Framework.Scenarios;
+using LightBDD.XUnit2;
 using System;
 using System.Net;
 using System.Net.Mail;
@@ -7,47 +10,43 @@ using Xunit;
 
 namespace TestEmail
 {
-    public class TestCreateEmail
+    [FeatureDescription(@"Test create email")]
+    [Label(nameof(TestCreateEmail))]
+    public partial class TestCreateEmail: FeatureFixture
     {
-        [Fact]
+        [Scenario]
+        [ScenarioCategory("Gmail")]
         [Trait("RealTest", "1")]
-        public void TestSendEmailGmail()
+        public async void TestSendEmailGmail()
         {
 
-            var ms = new EmailSmtpClientMS_Gmail();
-            ms.UserName = "ignat.andrei";
-            //set in powershell with
-            // $env:PWDGMAIL= "MyPassword"
-            var pwd = Environment.GetEnvironmentVariable("PWDGMAIL");
-            if (string.IsNullOrWhiteSpace(pwd))
-            {
-                throw new ArgumentException("please set the environment variable PWDGMAIL ;start  powershell and $env:PWDGMAIL= \"MyPassword\"");
-            }
-            ms.Password = Environment.GetEnvironmentVariable("PWDGMAIL");
-            var client = new SmtpClient(ms.Host, ms.Port)
-            {
-                Credentials = new NetworkCredential(ms.UserName, ms.Password),
-                EnableSsl = true
-            };
-            //if network security, goto https://myaccount.google.com/security, find lesser
-            client.Send("ignat.andrei@gmail.com", "ignatandrei@yahoo.com", "test", "testbody");
-            Console.WriteLine("Sent");
+            await Runner.AddSteps(
+Given_The_Password_IsSet_Via_Environment,    
+Given_A_GMAIL_SMTP_With_Hidden_Credentials,
+    And_Transform_To_Smtp_Regular,
+    Then_Send_Email
+    )
+    .RunAsync();
+                
         }
 
-        [Fact]
+
+
+
+        [Scenario]
+        [ScenarioCategory("Smtp4Dev")]
         [Trait("RealTest", "0")]
-        public void TestSendEmailSmtp4Dev()
+        public async void TestSendEmailSmtp4Dev()
         {
-            var ms = new EmailSmtpClientMS();
-            var client = new SmtpClient(ms.Host, ms.Port);
-            try
-            {
-                client.Send("ignat.andrei@gmail.com", "ignatandrei@yahoo.com", "test", "testbody");
-            }
-            catch(Exception ex)
-            {
-                Assert.True(false, $"did you do : dotnet tool restore + dotnet smpt4dev ? error {ex.Message}");
-            }
+
+            
+            await Runner.AddSteps(
+                Given_A_SimpleEmail_SMTP,
+                And_Transform_To_Smtp_Regular, 
+                Then_Send_Email
+                )
+                .RunAsync();
+            
         }
     }
 }

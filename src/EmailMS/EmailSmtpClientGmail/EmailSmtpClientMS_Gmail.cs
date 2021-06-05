@@ -1,5 +1,7 @@
 ﻿using EmailConfigurator;
 using System;
+using System.Net;
+using System.Net.Mail;
 
 namespace EmailSmtpClientGmail
 {
@@ -13,5 +15,15 @@ namespace EmailSmtpClientGmail
         }
         public string UserName { get; set; }
         public string Password { get; set; }
+
+        public override SmtpClient Client()
+        {
+            var c = base.Client();
+            c.Credentials = new NetworkCredential(UserName, Password);
+            c.EnableSsl = true;
+            return c;
+
+
+        }
     }
 }

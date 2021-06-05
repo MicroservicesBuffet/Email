@@ -1,5 +1,6 @@
 ﻿using ConfigureMS;
 using System;
+using System.Net.Mail;
 
 namespace EmailConfigurator
 {
@@ -18,7 +19,10 @@ namespace EmailConfigurator
         public string Host { get; set; }
         public int Port { get; set; }
 
-        
+        public virtual SmtpClient Client()
+        {
+            return new SmtpClient(Host, Port);
+        }
 
     }
 }
