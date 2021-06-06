@@ -26,6 +26,7 @@ namespace TestEmail
                 When_Create_Configurable_EmailSettings,
                 Then_Can_Found_SMTPProviders
             )
+            .AddStep(nameof(And_The_Number_of_SMTPProviders_is), _ => And_The_Number_of_SMTPProviders_is(2))
             .RunAsync();
 
 
