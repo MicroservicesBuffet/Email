@@ -1,11 +1,10 @@
 ﻿using System.Net.Mail;
 
-namespace SimpleSMTP
+namespace EmailConfigurator
 {
     public interface IEmailSmtpClient
     {
-        string Description { get; }
-
         SmtpClient Client();
+        void Test(string to);
     }
 }

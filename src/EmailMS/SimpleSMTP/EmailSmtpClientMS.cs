@@ -53,6 +53,9 @@ namespace SimpleSMTP
             return 1;
         }
 
-
+        public void Test(string to)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
