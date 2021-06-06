@@ -44,7 +44,8 @@ namespace TestEmail
                 _ => Given_Create_FileSystem_WithPlugins(),
                 _ => When_Create_Configurable_EmailSettings(),
                 _ => Then_Can_Found_SMTPProviders(),
-                _ => And_Choose_The_SmtpProvider(ConfigureEmail.smtpProvidersFolder,"simple")
+                _ => And_Choose_The_SmtpProvider(ConfigureEmail.smtpProvidersFolder,"simple"),
+                _ => And_Configuration_Is_Complete(true)
             )
             .RunAsync();
 
