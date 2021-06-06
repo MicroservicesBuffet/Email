@@ -1,4 +1,5 @@
-﻿using EmailConfigurator;
+﻿using ConfigureMS;
+using EmailConfigurator;
 using System;
 using System.Collections.Generic;
 using System.IO.Abstractions;
@@ -25,6 +26,16 @@ namespace TestEmail
 
 
         }
+        private async void And_Restore_Configuration()
+        {
+            await configure.SaveData(new RepoMSFile("andrei.txt", fileSystem));
+        }
+
+        private async void And_Save_Configuration()
+        {
+            await  configure.SaveData(new RepoMSFile("andrei.txt", fileSystem));
+        }
+
         private void When_Create_Configurable_EmailSettings()
         {
             configure = new ConfigureEmail(fileSystem);
@@ -46,7 +57,7 @@ namespace TestEmail
             Assert.Equal(nr, configure.EmailSmtp?.Length);//"no errors expected");
         }
 
-        private async void And_Configuration_Is_Complete(bool value)
+        private async void Then_Configuration_Is_Complete(bool value)
         {
             var complete = await configure.IsComplete;
             Assert.Equal(value, complete);

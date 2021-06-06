@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ConfigureMS
 {
-    class RepoMSFile : RepoMS
+    public class RepoMSFile : RepoMS
     {
         private readonly string fileName;
         private readonly IFileSystem fileSystem;

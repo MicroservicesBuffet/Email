@@ -45,14 +45,34 @@ namespace TestEmail
                 _ => When_Create_Configurable_EmailSettings(),
                 _ => Then_Can_Found_SMTPProviders(),
                 _ => And_Choose_The_SmtpProvider(ConfigureEmail.smtpProvidersFolder,"simple"),
-                _ => And_Configuration_Is_Complete(true)
+                _ => Then_Configuration_Is_Complete(true)
+            )
+            .RunAsync();
+
+
+        }
+        [Scenario]
+        [ScenarioCategory("TestSaveAndRestore")]
+        [Trait("RealTest", "0")]
+
+        public async void TestSaveAndRestore()
+        {
+
+            await Runner.AddSteps(
+                _ => Given_Create_FileSystem_WithPlugins(),
+                _ => When_Create_Configurable_EmailSettings(),
+                _ => Then_Can_Found_SMTPProviders(),
+                _ => And_Choose_The_SmtpProvider(ConfigureEmail.smtpProvidersFolder, "simple"),
+                _ => Then_Configuration_Is_Complete(true),
+                _ => And_Save_Configuration(),
+                _ => And_Restore_Configuration(),
+                _ => Then_Configuration_Is_Complete(true)
             )
             .RunAsync();
 
 
         }
 
-        
 
         [Scenario]
         [ScenarioCategory("ConfigureReadSMTP")]
@@ -62,7 +82,7 @@ namespace TestEmail
             await Runner.AddSteps(
                 _ => Given_Create_FileSystem_WithPlugins(),
                 _ => When_Create_Configurable_EmailSettings(),
-                _ => And_Configuration_Is_Complete(false)
+                _ => Then_Configuration_Is_Complete(false)
             )
             .RunAsync();
 
