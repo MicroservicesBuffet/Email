@@ -40,7 +40,7 @@ namespace SimpleSMTP
         public virtual async Task<int> LoadData(RepoMS repo)
         {
 
-            var data = await repo.GetItem<EmailSmtpClientMS>(this.Type);
+            var data = await repo.GetItem<EmailSmtpClientMS>();
 
             this.Host = data.Host;
             this.Port = data.Port;

@@ -17,37 +17,6 @@ namespace EmailConfigurator
 {
 
     
-    public class RepoFromAppSettings: RepoMS
-    {
-        private readonly IConfiguration c;
-        private readonly string name;
-
-        public RepoFromAppSettings(IConfiguration c,string nameRoot)
-        {
-            this.c = c;
-            this.name = nameRoot;
-        }
-
-        public Task<T[]> GetAllData<T>()
-        {
-            return null;
-        }
-
-        public Task<T> GetItem<T>(string id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<int> SaveData<T>(T t)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<int> SaveData<T>(T[] t)
-        {
-            throw new NotImplementedException();
-        }
-    }
     public class ConfigureEmail : StartConfigurationMS
     {
         public ConfigureEmail(IFileSystem fileSystem )

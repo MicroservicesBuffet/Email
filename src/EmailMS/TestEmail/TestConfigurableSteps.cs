@@ -32,7 +32,7 @@ namespace TestEmail
         private async void Then_Can_Found_SMTPProviders()
         {
             var nr = 0;
-            await foreach(var item in configure.StartFinding( pathPlugins, null))
+            await foreach(var item in configure.StartFinding( pathPlugins))
             {
                 nr++;
 

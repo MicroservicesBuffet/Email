@@ -22,13 +22,11 @@ namespace ConfigureMS
         Task<int> SaveData(RepoMS repo);
         Task<int> LoadData(RepoMS repo);
     }
-
+     
     public interface RepoMS
     {
-        Task<T> GetItem<T>(string id);
-        Task<T[]> GetAllData<T>();
+        Task<T> GetItem<T>();
         Task<int> SaveData<T>(T t);
-        Task<int> SaveData<T>(T[] t);
     }
 
     public interface IConfigurableMS {
