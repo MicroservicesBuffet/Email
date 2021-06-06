@@ -6,7 +6,7 @@ using System.Net.Mail;
 
 namespace EmailSmtpClientGmail
 {
-    public class EmailSmtpClientMS_Gmail: EmailSmtpClientMS
+    public class EmailSmtpClientMS_Gmail : EmailSmtpClientMS,IConfigurableMS 
     {
         public EmailSmtpClientMS_Gmail()
         {

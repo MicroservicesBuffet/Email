@@ -1,11 +1,12 @@
 ﻿using ConfigureMS;
+using EmailConfigurator;
 using System;
 using System.Net.Mail;
 using System.Threading.Tasks;
 
 namespace SimpleSMTP
 {
-    public class EmailSmtpClientMS : IConfigurableMS, SaveAndLoadData
+    public class EmailSmtpClientMS : IConfigurableMS, SaveAndLoadData, IEmailSmtpClient
     {
         public EmailSmtpClientMS()
         {
