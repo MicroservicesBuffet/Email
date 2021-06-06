@@ -1,6 +1,10 @@
 ﻿using ConfigureMS;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.IO;
+using System.Linq;
 using System.Net.Mail;
 using System.Threading.Tasks;
 
@@ -50,10 +54,29 @@ namespace EmailConfigurator
         {
             throw new NotImplementedException();
         }
-
-        public Task<int> StartFinding(string baseDir, RepoMS repoMS)
+        const string smptProvidersFolder = "smtpProviders";
+        public async Task<IEnumerable<ValidationResult>> StartFinding(string baseDir, RepoMS repoMS)
         {
-            throw new NotImplementedException();
+            await Task.Delay(1000);
+            //TODO: make this configurable  - load the path from a database instead of folders
+            var emailProviderPath = Path.Combine(baseDir, "smtpProviders");
+            if (!Directory.Exists(emailProviderPath))
+            {
+                yield return new ValidationResult($"folder {emailProviderPath} for smtp providers does not exists");
+                yield break;
+            }
+            EmailSmtp = Directory.GetDirectories(emailProviderPath).ToArray();
+            yield break;
         }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if(ConfiguredAt is null)
+            {
+                yield return new ValidationResult("not configured", new[] { nameof(ConfiguredAt) });
+            }
+        }
+
+        public string[] EmailSmtp { get; set; } 
     }
 }
