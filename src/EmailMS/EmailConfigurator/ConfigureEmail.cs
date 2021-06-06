@@ -84,7 +84,14 @@ namespace EmailConfigurator
                 yield return new ValidationResult($"folder {emailProviderPath} for smtp providers does not exists");
                 yield break;
             }
-            EmailSmtp = fileSystem.Directory.GetDirectories(emailProviderPath).ToArray();
+            EmailSmtp = fileSystem.Directory
+                .GetDirectories(emailProviderPath)
+                .ToArray()
+                .Select(it => it.Substring(emailProviderPath.Length+1))
+                .Select(it=>it?.Trim())
+                .ToArray();
+
+            BaseFolder = baseDir;
             yield break;
         }
 
@@ -111,14 +118,17 @@ namespace EmailConfigurator
                 case 0:
                     throw new ArgumentException($"did you have plugins in the folder called in {nameof(StartFinding)}");
                 default:
-                    var sep = Path.PathSeparator;
-                    ChoosenSmtp = EmailSmtp.FirstOrDefault(it => it.EndsWith(sep + name));
-                    if (ChoosenSmtp != null)
-                        ConfiguredAt = DateTime.UtcNow;
+                    value = value?.Trim();
+                    ChoosenSmtp = EmailSmtp.FirstOrDefault(it => string.Equals(it, value,StringComparison.CurrentCultureIgnoreCase));
+                    if (ChoosenSmtp == null) 
+                        throw new ArgumentException($"value {value} must be one of {string.Join(",",EmailSmtp)}",nameof(value));
+                    
+                    ConfiguredAt = DateTime.UtcNow;
                     break;
             }
             return ;
         }
+        public string BaseFolder { get; private set; }
         public string ChoosenSmtp { get; private set; }
         public string[] EmailSmtp { get; set; } 
     }

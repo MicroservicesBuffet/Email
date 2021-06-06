@@ -1,4 +1,5 @@
-﻿using LightBDD.Framework;
+﻿using EmailConfigurator;
+using LightBDD.Framework;
 using LightBDD.Framework.Scenarios;
 using LightBDD.XUnit2;
 using System;
@@ -32,6 +33,26 @@ namespace TestEmail
 
 
         }
+        [Scenario]
+        [ScenarioCategory("ConfigureSimpleEmail")]
+        [Trait("RealTest", "0")]
+
+        public async void TestConfigureSimpleEmail()
+        {
+
+            await Runner.AddSteps(
+                _ => Given_Create_FileSystem_WithPlugins(),
+                _ => When_Create_Configurable_EmailSettings(),
+                _ => Then_Can_Found_SMTPProviders(),
+                _ => And_Choose_The_SmtpProvider(ConfigureEmail.smtpProvidersFolder,"simple")
+            )
+            .RunAsync();
+
+
+        }
+
+        
+
         [Scenario]
         [ScenarioCategory("ConfigureReadSMTP")]
         [Trait("RealTest", "0")]

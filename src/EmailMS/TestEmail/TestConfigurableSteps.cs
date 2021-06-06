@@ -51,5 +51,9 @@ namespace TestEmail
             var complete = await configure.IsComplete;
             Assert.Equal(value, complete);
         }
+        private void And_Choose_The_SmtpProvider(string name,string value)
+        {
+            configure.ChooseConfiguration(name, value);
+        }
     }
 }
