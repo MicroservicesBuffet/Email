@@ -37,9 +37,14 @@ namespace SimpleSMTP
             return new SmtpClient(Host, Port);
         }
 
-        public virtual async Task<int> LoadData(RepoMS repo)
-        {
 
+        public virtual Task<int> SaveData(RepoMS repo)
+        {
+            return repo.SaveData<EmailSmtpClientMS>(this);
+        }
+
+        public async Task<int> LoadData(RepoMS repo)
+        {
             var data = await repo.GetItem<EmailSmtpClientMS>();
 
             this.Host = data.Host;
@@ -47,16 +52,6 @@ namespace SimpleSMTP
             return 1;
         }
 
-        public virtual Task<int> SaveData(RepoMS repo)
-        {
-            return repo.SaveData<EmailSmtpClientMS>(this);
-        }
 
-        Task<int> SaveAndLoadData.LoadData(RepoMS repo)
-        {
-            throw new NotImplementedException();
-        }
-
-        
     }
 }
