@@ -1,13 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
 namespace ConfigureMS
 {
-    public interface StartConfigurationMS        
+    public interface StartConfigurationMS: IValidatableObject        
     {
         DateTime? ConfiguredAt { get; set; }
 
-        Task<int> StartFinding(string baseDir, RepoMS repoMS);
+        IAsyncEnumerable<ValidationResult> StartFinding(string baseDir, RepoMS repoMS);
 
         Task<bool> IsComplete { get; set; }
 

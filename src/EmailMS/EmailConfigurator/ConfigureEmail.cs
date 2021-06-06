@@ -4,12 +4,19 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
+using System.IO.Abstractions;
 using System.Linq;
 using System.Net.Mail;
 using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
+
+[assembly:InternalsVisibleTo("TestEmail")]
+
 
 namespace EmailConfigurator
 {
+
+    
     public class RepoFromAppSettings: RepoMS
     {
         private readonly IConfiguration c;
@@ -43,9 +50,9 @@ namespace EmailConfigurator
     }
     public class ConfigureEmail : StartConfigurationMS
     {
-        public ConfigureEmail()
+        public ConfigureEmail(IFileSystem fileSystem )
         {
-
+            this.fileSystem = fileSystem;
         }
         public DateTime? ConfiguredAt { get; set; }
         public Task<bool> IsComplete { get; set; }
@@ -54,18 +61,20 @@ namespace EmailConfigurator
         {
             throw new NotImplementedException();
         }
-        const string smptProvidersFolder = "smtpProviders";
-        public async Task<IEnumerable<ValidationResult>> StartFinding(string baseDir, RepoMS repoMS)
+        internal const string smptProvidersFolder = "smtpProviders";
+        private readonly IFileSystem fileSystem;
+
+        public async IAsyncEnumerable<ValidationResult> StartFinding(string baseDir, RepoMS repoMS)
         {
             await Task.Delay(1000);
             //TODO: make this configurable  - load the path from a database instead of folders
-            var emailProviderPath = Path.Combine(baseDir, "smtpProviders");
-            if (!Directory.Exists(emailProviderPath))
+            var emailProviderPath = fileSystem.Path.Combine(baseDir, smptProvidersFolder);
+            if (!fileSystem.Directory.Exists(emailProviderPath))
             {
                 yield return new ValidationResult($"folder {emailProviderPath} for smtp providers does not exists");
                 yield break;
             }
-            EmailSmtp = Directory.GetDirectories(emailProviderPath).ToArray();
+            EmailSmtp = fileSystem.Directory.GetDirectories(emailProviderPath).ToArray();
             yield break;
         }
 
