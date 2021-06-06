@@ -11,8 +11,9 @@ namespace ConfigureMS
 
         IAsyncEnumerable<ValidationResult> StartFinding(string baseDir, RepoMS repoMS);
 
-        Task<bool> IsComplete { get; set; }
+        Task<bool> IsComplete { get; }
 
+        void ChooseConfiguration(string name, string value);
 
         Task<int> ConfigureAgain();
     }

@@ -55,20 +55,30 @@ namespace EmailConfigurator
             this.fileSystem = fileSystem;
         }
         public DateTime? ConfiguredAt { get; set; }
-        public Task<bool> IsComplete { get; set; }
-
+        public Task<bool> IsComplete
+        {
+            get
+            {
+                var nr = 0;
+                foreach (var item in Validate(null))
+                {
+                    return Task.FromResult(false);
+                }
+                return Task.FromResult(true);
+            }
+        }
         public Task<int> ConfigureAgain()
         {
             throw new NotImplementedException();
         }
-        internal const string smptProvidersFolder = "smtpProviders";
+        public const string smtpProvidersFolder = "smtpProviders";
         private readonly IFileSystem fileSystem;
 
         public async IAsyncEnumerable<ValidationResult> StartFinding(string baseDir, RepoMS repoMS)
         {
             await Task.Delay(1000);
             //TODO: make this configurable  - load the path from a database instead of folders
-            var emailProviderPath = fileSystem.Path.Combine(baseDir, smptProvidersFolder);
+            var emailProviderPath = fileSystem.Path.Combine(baseDir, smtpProvidersFolder);
             if (!fileSystem.Directory.Exists(emailProviderPath))
             {
                 yield return new ValidationResult($"folder {emailProviderPath} for smtp providers does not exists");
@@ -84,8 +94,32 @@ namespace EmailConfigurator
             {
                 yield return new ValidationResult("not configured", new[] { nameof(ConfiguredAt) });
             }
+            if (ChoosenSmtp == null)
+            {
+                yield return new ValidationResult($"please call {nameof(ChooseConfiguration)}", new[] { nameof(ConfiguredAt) });
+            }
         }
-
+        
+        public void ChooseConfiguration(string name, string value)
+        {
+            if (!string.Equals(name, smtpProvidersFolder, StringComparison.CurrentCultureIgnoreCase))
+                throw new ArgumentException($"you can configure just {smtpProvidersFolder}");
+            switch(EmailSmtp?.Length)
+            {
+                case null:
+                    throw new ArgumentException($"please call {nameof(StartFinding)}");
+                case 0:
+                    throw new ArgumentException($"did you have plugins in the folder called in {nameof(StartFinding)}");
+                default:
+                    var sep = Path.PathSeparator;
+                    ChoosenSmtp = EmailSmtp.FirstOrDefault(it => it.EndsWith(sep + name));
+                    if (ChoosenSmtp != null)
+                        ConfiguredAt = DateTime.UtcNow;
+                    break;
+            }
+            return ;
+        }
+        public string ChoosenSmtp { get; private set; }
         public string[] EmailSmtp { get; set; } 
     }
 }

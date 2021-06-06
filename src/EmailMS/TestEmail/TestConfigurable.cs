@@ -19,7 +19,7 @@ namespace TestEmail
         [Scenario]
         [ScenarioCategory("ConfigureReadSMTP")]
         [Trait("RealTest", "0")]
-        public async void TestReadSMTP()
+        public async void TestReadSMTPPlugins()
         {
 
             await Runner.AddSteps(
@@ -27,6 +27,20 @@ namespace TestEmail
                 _ => When_Create_Configurable_EmailSettings(),
                 _ => Then_Can_Found_SMTPProviders(),
                 _ => And_The_Number_of_SMTPProviders_is(2)
+            )
+            .RunAsync();
+
+
+        }
+        [Scenario]
+        [ScenarioCategory("ConfigureReadSMTP")]
+        [Trait("RealTest", "0")]
+        public async void TestConfigCompleteAtStart()
+        {
+            await Runner.AddSteps(
+                _ => Given_Create_FileSystem_WithPlugins(),
+                _ => When_Create_Configurable_EmailSettings(),
+                _ => And_Configuration_Is_Complete(false)
             )
             .RunAsync();
 
