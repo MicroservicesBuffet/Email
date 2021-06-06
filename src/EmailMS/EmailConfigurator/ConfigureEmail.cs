@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net.Mail;
 using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
+using System.Text.Json;
 
 [assembly:InternalsVisibleTo("TestEmail")]
 
@@ -17,7 +18,7 @@ namespace EmailConfigurator
 {
 
     
-    public class ConfigureEmail : StartConfigurationMS
+    public class ConfigureEmail : StartConfigurationMS, SaveAndLoadData
     {
         public ConfigureEmail(IFileSystem fileSystem )
         {
@@ -96,6 +97,39 @@ namespace EmailConfigurator
             }
             return ;
         }
+
+        public async Task<int> SaveData(RepoMS repo)
+        {
+            var c = await IsComplete;
+            if (!c)
+                throw new ValidationException($" should be valid , please use {nameof(ChooseConfiguration)}");
+            
+            var data = JsonSerializer.Serialize(this);
+            //todo: do not use reflection
+            var name = this.GetType().Name;
+            var fullName = fileSystem.Path.Combine(BaseFolder, name);
+            await fileSystem.File.WriteAllTextAsync(fullName, data);
+            
+            return data.Length;
+        
+        }
+
+        public async Task<int> LoadData(RepoMS repo)
+        {
+            //todo: do not use reflection
+            var name = this.GetType().Name;
+            var fullName = fileSystem.Path.Combine(BaseFolder, name);
+            var data= await fileSystem.File.ReadAllTextAsync(fullName);
+            var me = JsonSerializer.Deserialize<ConfigureEmail>(data);
+            await foreach(var item in this.StartFinding(me.BaseFolder))
+            {
+                throw new ArgumentException(item.ErrorMessage, item.MemberNames?.FirstOrDefault());
+            }
+            this.ChooseConfiguration(smtpProvidersFolder, me.ChoosenSmtp);
+            return fullName.Length;
+
+        }
+
         public string BaseFolder { get; private set; }
         public string ChoosenSmtp { get; private set; }
         public string[] EmailSmtp { get; set; } 
