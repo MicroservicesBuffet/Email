@@ -9,7 +9,7 @@ namespace ConfigureMS
     {
         DateTime? ConfiguredAt { get; set; }
 
-        IAsyncEnumerable<ValidationResult> StartFinding(string baseDir, RepoMS repoMS);
+        IAsyncEnumerable<ValidationResult> StartFinding(string baseDir);
 
         Task<bool> IsComplete { get; }
 

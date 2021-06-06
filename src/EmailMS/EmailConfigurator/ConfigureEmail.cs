@@ -58,8 +58,7 @@ namespace EmailConfigurator
         public Task<bool> IsComplete
         {
             get
-            {
-                var nr = 0;
+            {                
                 foreach (var item in Validate(null))
                 {
                     return Task.FromResult(false);
@@ -74,7 +73,7 @@ namespace EmailConfigurator
         public const string smtpProvidersFolder = "smtpProviders";
         private readonly IFileSystem fileSystem;
 
-        public async IAsyncEnumerable<ValidationResult> StartFinding(string baseDir, RepoMS repoMS)
+        public async IAsyncEnumerable<ValidationResult> StartFinding(string baseDir)
         {
             await Task.Delay(1000);
             //TODO: make this configurable  - load the path from a database instead of folders
