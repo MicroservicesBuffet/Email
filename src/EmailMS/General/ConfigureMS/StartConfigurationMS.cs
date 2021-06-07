@@ -14,8 +14,10 @@ namespace ConfigureMS
         Task<bool> IsComplete { get; }
 
         void ChooseConfiguration(string name, string value);
-
+        public Task<int> LoadConfiguration();
         Task<int> ConfigureAgain();
+
+        
     }
     public interface SaveAndLoadData
     {

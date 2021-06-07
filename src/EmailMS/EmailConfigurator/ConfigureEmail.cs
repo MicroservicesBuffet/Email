@@ -3,13 +3,12 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.IO;
 using System.IO.Abstractions;
 using System.Linq;
-using System.Net.Mail;
 using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
+using McMaster.NETCore.Plugins;
 
 [assembly:InternalsVisibleTo("TestEmail")]
 
@@ -113,7 +112,29 @@ namespace EmailConfigurator
             //return data.Length;
         
         }
-        
+        public Task<int> LoadConfiguration()
+        {
+            var folder = fileSystem.Path.Combine(BaseFolder, smtpProvidersFolder, ChoosenSmtp);
+            var nameDll = fileSystem.Path.Combine(folder, $"{ChoosenSmtp}.dll");
+            if (!fileSystem.File.Exists(nameDll))
+                throw new ArgumentException($"dll {nameDll} does not exists");
+            
+             var loader = PluginLoader.CreateFromAssemblyFile(
+    assemblyFile: nameDll,
+    sharedTypes: new[] { typeof(IEmailSmtpClient) },
+    isUnloadable: true);
+            var typeLoaded = loader
+                .LoadDefaultAssembly()
+                .GetTypes()
+                 .Where(t => typeof(IEmailSmtpClient).IsAssignableFrom(t) && !t.IsAbstract)
+                 .FirstOrDefault();
+            if (typeLoaded == null)
+                throw new ArgumentException($"cannot find {nameof(IEmailSmtpClient)} in {nameDll}");
+
+            ChoosenSMTPClient = (IEmailSmtpClient)Activator.CreateInstance(typeLoaded);
+            return Task.FromResult(1);
+        }
+
         public async Task<int> LoadData(RepoMS repo)
         {
             var me = await repo.GetItem<ConfigureEmail>();
@@ -134,6 +155,8 @@ namespace EmailConfigurator
 
         public string BaseFolder { get; private set; }
         public string ChoosenSmtp { get; private set; }
-        public string[] EmailSmtp { get; set; } 
+        public string[] EmailSmtp { get; set; }
+
+        public IEmailSmtpClient ChoosenSMTPClient;
     }
 }

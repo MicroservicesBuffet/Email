@@ -16,15 +16,71 @@ namespace TestEmail
         IFileSystem fileSystem;
         ConfigureEmail configure;
         string pathPlugins = @"C:\plugins";
-        private void Given_Create_FileSystem_WithPlugins()
+        private void DirectoryCopy(string sourceDirName, string destDirName,
+                                     bool copySubDirs)
+        {
+            // Get the subdirectories for the specified directory.
+            var dir =fileSystem.DirectoryInfo.FromDirectoryName(sourceDirName);
+            
+            if (!dir.Exists)
+            {
+                throw new System.IO.DirectoryNotFoundException(
+                    "Source directory does not exist or could not be found: "
+                    + sourceDirName);
+            }
+
+            var dirs = dir.GetDirectories();
+            // If the destination directory doesn't exist, create it.
+            if (!fileSystem.Directory.Exists(destDirName))
+            {
+                fileSystem.Directory.CreateDirectory(destDirName);
+            }
+
+            // Get the files in the directory and copy them to the new location.
+            var files = dir.GetFiles();
+            foreach (var file in files)
+            {
+                string temppath = fileSystem.Path.Combine(destDirName, file.Name);
+                file.CopyTo(temppath, false);
+            }
+
+            // If copying subdirectories, copy them and their contents to new location.
+            if (copySubDirs)
+            {
+                foreach (var subdir in dirs)
+                {
+                    string temppath = fileSystem.Path.Combine(destDirName, subdir.Name);
+                    DirectoryCopy(subdir.FullName, temppath, copySubDirs);
+                }
+            }
+        }
+
+        private void Given_Create_MockFileSystem_WithPlugins()
         {
             
             fileSystem = new MockFileSystem();
             fileSystem.Directory.CreateDirectory(pathPlugins);
             fileSystem.Directory.CreateDirectory(@$"{pathPlugins}\{ConfigureEmail.smtpProvidersFolder}\gmail");
             fileSystem.Directory.CreateDirectory(@$"{pathPlugins}\{ConfigureEmail.smtpProvidersFolder}\simple");
+            
 
+        }
+        private async void When_Load_Choosen_SMTP()
+        {
+            await this.configure.LoadConfiguration();
+        }
+        private void Given_Create_RealFileSystem_WithPlugins()
+        {
 
+            fileSystem = new FileSystem();
+            if (fileSystem.Directory.Exists(pathPlugins))
+                fileSystem.Directory.Delete(pathPlugins, true);
+            fileSystem.Directory.CreateDirectory(pathPlugins);
+            fileSystem.Directory.CreateDirectory(@$"{pathPlugins}\{ConfigureEmail.smtpProvidersFolder}\gmail");
+            fileSystem.Directory.CreateDirectory(@$"{pathPlugins}\{ConfigureEmail.smtpProvidersFolder}\SimpleSMTP");
+            string pathFrom = @"E:\ignatandrei\Email\src\EmailMS\SimpleSMTP\bin\Debug\net5.0";
+            string pathWhere = @$"{pathPlugins}\{ConfigureEmail.smtpProvidersFolder}\SimpleSMTP";
+            DirectoryCopy(pathFrom, pathWhere, true);
         }
         private async void And_Restore_Configuration()
         {
