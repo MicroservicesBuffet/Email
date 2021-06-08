@@ -4,6 +4,8 @@ using SimpleSMTP;
 using System;
 using System.Net;
 using System.Net.Mail;
+using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace EmailSmtpClientGmail
 {
@@ -27,6 +29,22 @@ namespace EmailSmtpClientGmail
 
 
         }
-        
+
+        Task IData.Restore(string data)
+        {
+            var me = JsonSerializer.Deserialize<EmailSmtpClientMS_Gmail>(data);
+            this.Host = me.Host;
+            this.Port = me.Port;
+            this.UserName = me.UserName;
+            this.Password = me.Password;
+            return Task.CompletedTask;
+        }
+
+        Task<string> IData.SavedData()
+        {
+            var data = JsonSerializer.Serialize(this);
+            return Task.FromResult(data);
+        }
+
     }
 }

@@ -2,11 +2,15 @@
 using EmailConfigurator;
 using System;
 using System.Net.Mail;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace SimpleSMTP
 {
-    public class EmailSmtpClientMS : IConfigurableMS, SaveAndLoadData, IEmailSmtpClient
+    /// <summary>
+    /// TODO:with AOP find the names of the properties to configure
+    /// </summary>
+    public class EmailSmtpClientMS : IConfigurableMS,  IEmailSmtpClient
     {
         public EmailSmtpClientMS()
         {
@@ -38,24 +42,24 @@ namespace SimpleSMTP
             return new SmtpClient(Host, Port);
         }
 
-
-        public virtual Task<int> SaveData(RepoMS repo)
+        Task IData.Restore(string data)
         {
-            return repo.SaveData<EmailSmtpClientMS>(this);
+            var me = JsonSerializer.Deserialize<EmailSmtpClientMS>(data);
+            this.Host = me.Host;
+            this.Port = me.Port;
+            return Task.CompletedTask;
         }
 
-        public async Task<int> LoadData(RepoMS repo)
+        Task<string> IData.SavedData()
         {
-            var data = await repo.GetItem<EmailSmtpClientMS>();
-
-            this.Host = data.Host;
-            this.Port = data.Port;
-            return 1;
+            var data = JsonSerializer.Serialize(this);
+            return Task.FromResult(data);
         }
 
-        public void Test(string to)
+
+        public Task Test(string from)
         {
-            throw new NotImplementedException();
+            return Client().SendMailAsync(from, from, "TestEmail", "Welcome configurable email!");
         }
     }
 }

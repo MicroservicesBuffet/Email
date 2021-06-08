@@ -1,10 +1,12 @@
-﻿using System.Net.Mail;
+﻿using ConfigureMS;
+using System.Net.Mail;
+using System.Threading.Tasks;
 
 namespace EmailConfigurator
 {
-    public interface IEmailSmtpClient
+    public interface IEmailSmtpClient: IData
     {
         SmtpClient Client();
-        void Test(string to);
+        Task Test(string from);
     }
 }

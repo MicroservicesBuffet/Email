@@ -30,7 +30,11 @@ namespace ConfigureMS
         Task<T> GetItem<T>();
         Task<int> SaveData<T>(T t);
     }
+    public interface IData {
 
+        Task<string> SavedData();
+        Task Restore(string data);
+    }
     public interface IConfigurableMS {
         string Name { get; set; }
         string Type{ get;  }
