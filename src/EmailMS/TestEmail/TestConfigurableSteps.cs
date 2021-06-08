@@ -77,13 +77,13 @@ namespace TestEmail
             if (fileSystem.Directory.Exists(pathPlugins))
                 fileSystem.Directory.Delete(pathPlugins, true);
             
-            await Task.Delay(1000);
+            //await Task.Delay(1000); 
 
             fileSystem.Directory.CreateDirectory(pathPlugins);
             fileSystem.Directory.CreateDirectory(@$"{pathPlugins}\{ConfigureEmail.smtpProvidersFolder}");
             fileSystem.Directory.CreateDirectory(@$"{pathPlugins}\{ConfigureEmail.smtpProvidersFolder}\gmail");
             fileSystem.Directory.CreateDirectory(@$"{pathPlugins}\{ConfigureEmail.smtpProvidersFolder}\SimpleSMTP");
-            string pathFrom = @"E:\ignatandrei\Email\src\EmailMS\SimpleSMTP\bin\Debug\net5.0";
+            string pathFrom = @"..\..\..\..\SimpleSMTP\bin\Debug\net5.0";
             string pathWhere = @$"{pathPlugins}\{ConfigureEmail.smtpProvidersFolder}\SimpleSMTP";
             DirectoryCopy(pathFrom, pathWhere, true);
         }
