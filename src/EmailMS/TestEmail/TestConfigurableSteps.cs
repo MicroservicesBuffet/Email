@@ -69,13 +69,18 @@ namespace TestEmail
         {
             await this.configure.LoadConfiguration();
         }
-        private void Given_Create_RealFileSystem_WithPlugins()
+        private async Task Given_Create_RealFileSystem_WithPlugins()
         {
 
             fileSystem = new FileSystem();
+            
             if (fileSystem.Directory.Exists(pathPlugins))
                 fileSystem.Directory.Delete(pathPlugins, true);
+            
+            await Task.Delay(1000);
+
             fileSystem.Directory.CreateDirectory(pathPlugins);
+            fileSystem.Directory.CreateDirectory(@$"{pathPlugins}\{ConfigureEmail.smtpProvidersFolder}");
             fileSystem.Directory.CreateDirectory(@$"{pathPlugins}\{ConfigureEmail.smtpProvidersFolder}\gmail");
             fileSystem.Directory.CreateDirectory(@$"{pathPlugins}\{ConfigureEmail.smtpProvidersFolder}\SimpleSMTP");
             string pathFrom = @"E:\ignatandrei\Email\src\EmailMS\SimpleSMTP\bin\Debug\net5.0";
