@@ -2,6 +2,7 @@
 using EmailConfigurator;
 using SimpleSMTP;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Mail;
 using System.Text.Json;
@@ -44,6 +45,10 @@ namespace EmailSmtpClientGmail
         {
             var data = JsonSerializer.Serialize(this);
             return Task.FromResult(data);
+        }
+        HashSet<string> IData.Properties()
+        {
+            throw new NotImplementedException();
         }
 
     }

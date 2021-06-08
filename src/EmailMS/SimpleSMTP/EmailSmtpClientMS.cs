@@ -1,6 +1,7 @@
 ﻿using ConfigureMS;
 using EmailConfigurator;
 using System;
+using System.Collections.Generic;
 using System.Net.Mail;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -56,10 +57,15 @@ namespace SimpleSMTP
             return Task.FromResult(data);
         }
 
-
+        HashSet<string> IData.Properties()
+        {
+            throw new NotImplementedException();
+        }
         public Task Test(string from)
         {
             return Client().SendMailAsync(from, from, "TestEmail", "Welcome configurable email!");
         }
+
+        
     }
 }

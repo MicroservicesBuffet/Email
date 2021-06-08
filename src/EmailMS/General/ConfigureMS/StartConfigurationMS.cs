@@ -34,6 +34,8 @@ namespace ConfigureMS
 
         Task<string> SavedData();
         Task Restore(string data);
+        public HashSet<string> Properties();
+
     }
     public interface IConfigurableMS {
         string Name { get; set; }
