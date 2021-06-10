@@ -32,10 +32,8 @@ namespace SimpleSMTP
 
         public string Description
         {
-            get
-            {
-                return $"simple email sender with {Host}:{Port}";
-            }
+            get;
+            set;
         }
 
 
@@ -67,6 +65,9 @@ namespace SimpleSMTP
             return Client().SendMailAsync(from, from, "TestEmail", "Welcome configurable email!");
         }
 
-        
+        void IData.SetProperties(IDictionary<string, object> values)
+        {
+            this.WriteMyProperties(values);
+        }
     }
 }

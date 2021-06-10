@@ -47,5 +47,36 @@ Given_A_GMAIL_SMTP_With_Hidden_Credentials,
                 .RunAsync();
             
         }
+        [Scenario]
+        [ScenarioCategory("Smtp4Dev")]
+        [Trait("RealTest", "0")]
+        public async void TestSendEmailSmtp4DevWriteProperties()
+        {
+
+
+            await Runner.AddSteps(
+                _ => Given_A_SimpleEmail_SMTP(),
+                _ => And_Setting_The_Host_Property_To("localhost"), 
+                _ => And_Transform_To_Smtp_Regular(),
+                _ => Then_Send_Email()
+                )
+                .RunAsync();
+
+        }
+        [Scenario]
+        [ScenarioCategory("ErrorEmail")]
+        [Trait("RealTest", "0")]
+        public async void TestSendEmailError()
+        {
+
+
+            await Runner.AddSteps(
+                _ => Given_A_SimpleEmail_SMTP(),
+                _ => And_Transform_To_Smtp_Regular(),
+                _ => Then_Send_Email_Will_Have_Error()
+                )
+                .RunAsync();
+
+        }
     }
 }

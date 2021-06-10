@@ -33,6 +33,14 @@ namespace {{NamespaceName}} {
         return data;
     
     }
+    private void WriteMyProperties(IDictionary<string,object> values){
+{{~ for p in Properties ~}}
+        if(values.ContainsKey("{{p.Name}}"))
+        this.{{p.Name}} = ({{p.ReturnType}})values["{{p.Name}}"];        
+{{ end }}
+        
+    
+    }
     
   }
 }              

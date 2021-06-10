@@ -1,4 +1,5 @@
-﻿using EmailSmtpClientGmail;
+﻿using ConfigureMS;
+using EmailSmtpClientGmail;
 using LightBDD.Framework;
 using SimpleSMTP;
 using System;
@@ -8,6 +9,7 @@ using System.Net;
 using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
+using Xunit;
 
 namespace TestEmail
 {
@@ -43,6 +45,14 @@ namespace TestEmail
         {
             ms.Host = host;
         }
+        private void And_Setting_The_Host_Property_To(string host)
+        {
+            IData data = ms as IData;
+            data.SetProperties(new Dictionary<string, object>()
+            {
+                {"Host",host }
+            });
+        }
         private void And_Transform_To_Smtp_Regular()
         {
             client = ms.Client();
@@ -51,6 +61,19 @@ namespace TestEmail
         {
             client.Send("ignat.andrei@gmail.com", "ignatandrei@yahoo.com", "test", "testbody");
         }
+        private void Then_Send_Email_Will_Have_Error()
+        {
+            try
+            {
+                client.Send("ignat.andrei@gmail.com", "ignatandrei@yahoo.com", "test", "testbody");
 
+            }
+            catch (Exception ex)
+            {
+                Assert.True(true);
+                return;
+            }
+            Assert.True(false, "it should give an error");
+        }
     }
 }
