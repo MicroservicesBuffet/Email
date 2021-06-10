@@ -52,8 +52,6 @@ Given_A_GMAIL_SMTP_With_Hidden_Credentials,
         [Trait("RealTest", "0")]
         public async void TestSendEmailSmtp4DevWriteProperties()
         {
-
-
             await Runner.AddSteps(
                 _ => Given_A_SimpleEmail_SMTP(),
                 _ => And_Setting_The_Host_Property_To("localhost"), 
