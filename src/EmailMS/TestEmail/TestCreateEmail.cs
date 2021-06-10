@@ -39,9 +39,10 @@ Given_A_GMAIL_SMTP_With_Hidden_Credentials,
 
             
             await Runner.AddSteps(
-                Given_A_SimpleEmail_SMTP,
-                And_Transform_To_Smtp_Regular, 
-                Then_Send_Email
+                _ => Given_A_SimpleEmail_SMTP(),
+                _ => And_Setting_The_Host_To("localhost"),
+                _ =>  And_Transform_To_Smtp_Regular(),
+                _ => Then_Send_Email()
                 )
                 .RunAsync();
             

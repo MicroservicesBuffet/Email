@@ -19,7 +19,6 @@ namespace SimpleSMTP
         {
 
             Port = 25;
-            Host = "localhost";
             //TODO: aopmethods to not use reflection
             Type = this.GetType().Name;
 

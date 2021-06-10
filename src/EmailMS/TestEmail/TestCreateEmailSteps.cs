@@ -39,7 +39,10 @@ namespace TestEmail
             ms1.Password = pwd;
             ms = ms1;                     
         }
-
+        private void And_Setting_The_Host_To(string host)
+        {
+            ms.Host = host;
+        }
         private void And_Transform_To_Smtp_Regular()
         {
             client = ms.Client();
