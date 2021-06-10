@@ -1,4 +1,5 @@
-﻿using ConfigureMS;
+﻿using AOPMethodsCommon;
+using ConfigureMS;
 using EmailConfigurator;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,8 @@ namespace SimpleSMTP
     /// <summary>
     /// TODO:with AOP find the names of the properties to configure
     /// </summary>
-    public class EmailSmtpClientMS : IConfigurableMS,  IEmailSmtpClient
+    [AutoMethods(template = TemplateMethod.CustomTemplateFile, CustomTemplateFileName = "ClassToDictionary.txt")]
+    public partial class EmailSmtpClientMS : IConfigurableMS,  IEmailSmtpClient
     {
         public EmailSmtpClientMS()
         {
@@ -25,7 +27,7 @@ namespace SimpleSMTP
         public string Name { get; set; }
 
 
-        public string Type { get; init; }
+        public string Type { get; private set; }
         public string Host { get; set; }
         public int Port { get; set; }
 
@@ -57,9 +59,9 @@ namespace SimpleSMTP
             return Task.FromResult(data);
         }
 
-        HashSet<string> IData.Properties()
-        {
-            throw new NotImplementedException();
+        IDictionary<string, object>  IData.WriteProperties()
+        { 
+            return MyProperties(); 
         }
         public Task Test(string from)
         {

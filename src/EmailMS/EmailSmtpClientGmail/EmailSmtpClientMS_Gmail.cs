@@ -46,10 +46,10 @@ namespace EmailSmtpClientGmail
             var data = JsonSerializer.Serialize(this);
             return Task.FromResult(data);
         }
-        HashSet<string> IData.Properties()
-        {
-            throw new NotImplementedException();
-        }
+        //HashSet<string> IData.Properties()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
     }
 }
