@@ -6,12 +6,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EmailConfigurator\EmailConfigurator.csproj" />
-    <ProjectReference Include="..\General\ConfigureMS\ConfigureMS.csproj" />
   </ItemGroup>
   <ItemGroup>
     <AdditionalFiles Include="../ClassToDictionary.txt" />
-    <PackageReference Include="AOPMethodsCommon" Version="2021.6.10.2012" />
-    <PackageReference Include="AOPMethodsGenerator" Version="2021.6.10.2012" />
+    <PackageReference Include="AOPMethodsCommon" Version="2021.6.11.907" />
+    <PackageReference Include="AOPMethodsGenerator" Version="2021.6.11.907" />
 
   </ItemGroup>
   <PropertyGroup>

@@ -35,6 +35,7 @@ namespace ConfigureMS
         Task<string> SavedData();
         Task Restore(string data);
         public IDictionary<string, object> WriteProperties();
+        public IDictionary<string, object> ReadProperties(); 
         public void SetProperties(IDictionary<string, object> values);
 
     }

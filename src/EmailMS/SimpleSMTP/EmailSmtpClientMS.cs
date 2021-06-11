@@ -3,6 +3,7 @@ using ConfigureMS;
 using EmailConfigurator;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Mail;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -13,27 +14,34 @@ namespace SimpleSMTP
     /// TODO:with AOP find the names of the properties to configure
     /// </summary>
     [AutoMethods(template = TemplateMethod.CustomTemplateFile, CustomTemplateFileName = "ClassToDictionary.txt")]
-    public partial class EmailSmtpClientMS : IConfigurableMS,  IEmailSmtpClient
+    public partial class EmailSmtpClientMS : IConfigurableMS, IEmailSmtpClient
     {
         public EmailSmtpClientMS()
         {
 
             Port = 25;
-            //TODO: aopmethods to not use reflection
-            Type = this.GetType().Name;
-
+         
         }
         public string Name { get; set; }
 
 
-        public string Type { get; private set; }
+        public string Type
+        {
+            get
+            {
+                //TODO: aopmethods to not use reflection
+                return this.GetType().Name;
+            }
+        }
         public string Host { get; set; }
         public int Port { get; set; }
 
         public string Description
         {
-            get;
-            set;
+            get
+            {
+                return $"{Type} {Host}:{Port}";
+            }
         }
 
 
@@ -56,9 +64,14 @@ namespace SimpleSMTP
             return Task.FromResult(data);
         }
 
-        IDictionary<string, object>  IData.WriteProperties()
-        { 
-            return MyProperties(); 
+        IDictionary<string, object> IData.WriteProperties()
+        {
+            var arr = MyProperties()
+                .Where(it => it.Value.CanWrite)
+                .Select(it => new KeyValuePair<string, object>(it.Key, it.Value.Value))
+                .ToArray();
+            var dict = new Dictionary<string, object>(arr);
+            return dict;
         }
         public Task Test(string from)
         {
@@ -69,5 +82,16 @@ namespace SimpleSMTP
         {
             this.WriteMyProperties(values);
         }
+
+        IDictionary<string, object> IData.ReadProperties()
+        {
+            var arr = MyProperties()
+                .Where(it => it.Value.CanRead)
+                .Select(it => new KeyValuePair<string, object>(it.Key, it.Value.Value))
+                .ToArray();
+            var dict = new Dictionary<string, object>(arr);
+            return dict;
+        }
     }
+
 }
