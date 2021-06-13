@@ -19,9 +19,14 @@ namespace SenderEmail.General
         {
             if (config.IsConfigured())
                 return next(context);
+            if (context.Request.Path.Value?.Contains("StartConfigure")??false)
+                return next(context);
+
             //if it is not configured , go to Start Configure
-            context.Request.Path = "/StartConfigure";
-            return next(context);
+            context.Response.Redirect("/StartConfigure/Index");
+            context.Response.StatusCode = StatusCodes.Status302Found;
+            return Task.CompletedTask;
+            //return next(context);
         }
     }
 }

@@ -5,6 +5,14 @@
     ViewData["Title"] = "Customize";
     bool wasConfigured = configure.IsConfigured();
 }
+<style>
+    .field-validation-error {
+        color: red
+    }
+    .validation-summary-errors {
+        color: red
+    }
+</style>
 
 <h1>Start Customizing</h1>
 @if (wasConfigured)
@@ -13,7 +21,8 @@
         Last Configuration: @configure.ConfiguredAt
     </text>
 }
-<div asp-validation-summary="All"></div>
+<form asp-controller="Home" asp-action="Save" method="post">
+    <div asp-validation-summary="All"></div>
 
-
+    </form>
 
