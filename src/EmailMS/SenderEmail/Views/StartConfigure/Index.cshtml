@@ -1,7 +1,17 @@
 ﻿
+@inject ConfigureMS.StartConfigurationMS configure;
+
 @{
     ViewData["Title"] = "Customize";
+    bool wasConfigured = configure.IsConfigured();
 }
 
 <h1>Start Customizing</h1>
+@if (wasConfigured)
+{
+    <text>
+        Last Configuration: @configure.ConfiguredAt
+        </text>
+}
+
 
