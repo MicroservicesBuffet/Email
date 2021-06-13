@@ -49,7 +49,9 @@ namespace EmailConfigurator
             var emailProviderPath = fileSystem.Path.Combine(baseDir, smtpProvidersFolder);
             if (!fileSystem.Directory.Exists(emailProviderPath))
             {
-                yield return new ValidationResult($"folder {emailProviderPath} for smtp providers does not exists");
+                yield return new ValidationResult($"folder {emailProviderPath} for smtp providers does not exists",new[]{
+                "path"                    
+                });
                 yield break;
             }
             EmailSmtp = fileSystem.Directory
