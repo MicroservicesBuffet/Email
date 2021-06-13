@@ -17,7 +17,7 @@ namespace EmailConfigurator
 {
 
     
-    public class ConfigureEmail : StartConfigurationMS, SaveAndLoadData
+    public class ConfigureEmail : StartConfigurationMS, ISaveAndLoadData
     {
         public ConfigureEmail(IFileSystem fileSystem )
         {
@@ -97,7 +97,7 @@ namespace EmailConfigurator
             return ;
         }
 
-        public  async Task<int> SaveData(RepoMS repo)
+        public  async Task<int> SaveData(IRepoMS repo)
         {
             var c = await IsComplete;
             if (!c)
@@ -135,7 +135,7 @@ namespace EmailConfigurator
             return Task.FromResult(1);
         }
 
-        public async Task<int> LoadData(RepoMS repo)
+        public async Task<int> LoadData(IRepoMS repo)
         {
             var me = await repo.GetItem<ConfigureEmail>();
 

@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 
 namespace ConfigureMS
 {
-    public interface StartConfigurationMS: IValidatableObject        
+    public interface StartConfigurationMS:ISaveAndLoadData, IValidatableObject        
     {
+        bool IsConfigured()=> ConfiguredAt != null;
+
         DateTime? ConfiguredAt { get; set; }
 
         IAsyncEnumerable<ValidationResult> StartFinding(string baseDir);
@@ -19,13 +21,13 @@ namespace ConfigureMS
 
         
     }
-    public interface SaveAndLoadData
+    public interface ISaveAndLoadData
     {
-        Task<int> SaveData(RepoMS repo);
-        Task<int> LoadData(RepoMS repo);
+        Task<int> SaveData(IRepoMS repo);
+        Task<int> LoadData(IRepoMS repo);
     }
      
-    public interface RepoMS
+    public interface IRepoMS
     {
         Task<T> GetItem<T>();
         Task<int> SaveData<T>(T t);
