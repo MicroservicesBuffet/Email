@@ -19,7 +19,12 @@ namespace SenderEmail.General
         {
             if (config.IsConfigured())
                 return next(context);
+            
             if (context.Request.Path.Value?.Contains("StartConfigure")??false)
+                return next(context);
+            if (context.Request.Path.Value?.EndsWith("css") ?? false)
+                return next(context);
+            if (context.Request.Path.Value?.EndsWith("js") ?? false)
                 return next(context);
 
             //if it is not configured , go to Start Configure
