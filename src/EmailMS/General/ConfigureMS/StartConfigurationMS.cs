@@ -7,6 +7,7 @@ namespace ConfigureMS
 {
     public interface StartConfigurationMS:ISaveAndLoadData, IValidatableObject        
     {
+        string Name { get; }
         bool IsConfigured()=> ConfiguredAt != null;
 
         DateTime? ConfiguredAt { get; set; }

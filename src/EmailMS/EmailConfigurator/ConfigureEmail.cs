@@ -22,6 +22,7 @@ namespace EmailConfigurator
         public ConfigureEmail(IFileSystem fileSystem )
         {
             this.fileSystem = fileSystem;
+            this.Name = "ConfigureEmail";
         }
         public DateTime? ConfiguredAt { get; set; }
         public Task<bool> IsComplete
@@ -41,6 +42,8 @@ namespace EmailConfigurator
         }
         public const string smtpProvidersFolder = "smtpProviders";
         private readonly IFileSystem fileSystem;
+
+        public string Name { get; }
 
         public async IAsyncEnumerable<ValidationResult> StartFinding(string baseDir)
         {

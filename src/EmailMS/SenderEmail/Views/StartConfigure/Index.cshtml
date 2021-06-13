@@ -9,12 +9,17 @@
     .field-validation-error {
         color: red
     }
+
     .validation-summary-errors {
         color: red
     }
 </style>
 
-<h1>Start Customizing</h1>
+<div class="text-center">
+    <h1 class="display-4">Start Customizing @configure.Name</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
 @if (wasConfigured)
 {
     <text>
@@ -24,5 +29,5 @@
 <form asp-controller="Home" asp-action="Save" method="post">
     <div asp-validation-summary="All"></div>
 
-    </form>
+</form>
 
