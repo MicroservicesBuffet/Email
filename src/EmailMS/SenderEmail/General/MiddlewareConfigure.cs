@@ -9,9 +9,9 @@ namespace SenderEmail.General
 {
     public class MiddlewareConfigure : IMiddleware
     {
-        private readonly StartConfigurationMS config;
+        private readonly IStartConfigurationMS config;
 
-        public MiddlewareConfigure(StartConfigurationMS config)
+        public MiddlewareConfigure(IStartConfigurationMS config)
         {
             this.config = config;
         }

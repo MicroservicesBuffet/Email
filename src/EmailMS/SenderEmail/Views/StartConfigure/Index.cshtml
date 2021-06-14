@@ -1,19 +1,19 @@
 ﻿@using System.Linq;
-@Model  ConfigureMS.StartConfigurationMS
+@Model  ConfigureMS.SHIM_StartConfigurationMS
 @*@inject ConfigureMS.StartConfigurationMS configure;*@
 
 @{
     ViewData["Title"] = "Customize";
-    bool wasConfigured = Model.ConfiguredAt != null;
+    bool wasConfigured = Model.IsConfigured();
     SelectListItem[] Mainproviders = new SelectListItem[0];
-    if (Model.MainProviders?.Length>0)
+    if (Model.MainProviders?.Length > 0)
     {
         var nr = Model.MainProviders.Length;
         Mainproviders = new SelectListItem[nr];
         for (int i = 0; i < nr; i++)
         {
             var str = Model.MainProviders[i];
-            Mainproviders[i] = new SelectListItem(str,str);
+            Mainproviders[i] = new SelectListItem(str, str);
 
         }
     }
@@ -41,9 +41,9 @@
 <form asp-controller="Home" asp-action="Save" method="post">
     <div asp-validation-summary="All"></div>
 
-Providers @Model.MainProviders.Length :
+    Providers @Model.MainProviders.Length :
 
-<select asp-for="ChoosenMainProvider"  asp-items="Mainproviders"></select>
+    <select asp-for="ChoosenMainProvider" asp-items="Mainproviders"></select>
 
 
 </form>

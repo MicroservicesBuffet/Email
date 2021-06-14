@@ -30,7 +30,7 @@ namespace SenderEmail
             services.AddSingleton<MiddlewareConfigure>();
             services.AddTransient<IFileSystem, FileSystem>();
             services.AddSingleton<IRepoMS>(s => new RepoMSFile("email.json", s.GetRequiredService<IFileSystem>()));
-            services.AddSingleton<StartConfigurationMS, ConfigureEmail>();
+            services.AddSingleton<IStartConfigurationMS, ConfigureEmail>();
             services.AddControllersWithViews();
             
         }

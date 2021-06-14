@@ -5,9 +5,66 @@ using System.Threading.Tasks;
 
 namespace ConfigureMS
 {
-    public interface StartConfigurationMS:ISaveAndLoadData, IValidatableObject        
+    public class SHIM_StartConfigurationMS : IStartConfigurationMS
     {
-        string Name { get; }
+        //TODO: use RSCG
+        public SHIM_StartConfigurationMS(IStartConfigurationMS configure)
+        {
+            this.Name = configure.Name;
+            this.ConfiguredAt = configure.ConfiguredAt;
+            this.ChoosenMainProvider = configure.ChoosenMainProvider;
+            this.MainProviders = configure.MainProviders;
+        }
+        public bool IsConfigured() => ConfiguredAt != null;
+
+        public string Name { get; set; }
+
+        public DateTime? ConfiguredAt { get; set; }
+
+        public string ChoosenMainProvider { get; set; }
+
+        public Task<bool> IsComplete { get; set; }
+
+        public string[] MainProviders { get; set; }
+
+        public void ChooseConfiguration(string name, string value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> ConfigureAgain()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> LoadConfiguration()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> LoadData(IRepoMS repo)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> SaveData(IRepoMS repo)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncEnumerable<ValidationResult> StartFinding(string baseDir)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            throw new NotImplementedException();
+        }
+    }
+    public interface IStartConfigurationMS:ISaveAndLoadData, IValidatableObject        
+    {
+        string Name { get;}
         bool IsConfigured()=> ConfiguredAt != null;
 
         DateTime? ConfiguredAt { get; set; }

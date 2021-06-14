@@ -17,7 +17,7 @@ namespace EmailConfigurator
 {
 
     
-    public class ConfigureEmail : StartConfigurationMS, ISaveAndLoadData
+    public class ConfigureEmail : IStartConfigurationMS, ISaveAndLoadData
     {
         public ConfigureEmail(IFileSystem fileSystem )
         {
