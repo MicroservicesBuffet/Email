@@ -43,7 +43,7 @@ namespace SimpleSMTP
                 return $"{Type} {Host}:{Port}";
             }
         }
-
+        public string From { get; set; }
 
         public virtual SmtpClient Client()
         {
@@ -73,10 +73,6 @@ namespace SimpleSMTP
             var dict = new Dictionary<string, object>(arr);
             return dict;
         }
-        public Task Test(string from)
-        {
-            return Client().SendMailAsync(from, from, "TestEmail", "Welcome configurable email!");
-        }
 
         void IData.SetProperties(IDictionary<string, object> values)
         {
@@ -91,6 +87,11 @@ namespace SimpleSMTP
                 .ToArray();
             var dict = new Dictionary<string, object>(arr);
             return dict;
+        }
+
+        Task IData.Test() 
+        {
+            return Client().SendMailAsync(From, From, "TestEmail", "Welcome configurable email!");
         }
     }
 

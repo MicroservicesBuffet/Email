@@ -70,7 +70,7 @@ namespace TestEmail
             }
             catch (Exception ex)
             {
-                Assert.True(true);
+                Assert.True(true,ex.Message);
                 return;
             }
             Assert.True(false, "it should give an error");

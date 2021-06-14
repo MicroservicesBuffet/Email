@@ -45,5 +45,21 @@ namespace SenderEmail.Controllers
             var shim = new SHIM_StartConfigurationMS(config);
             return View("Index", shim);
         }
+
+        [HttpPost]
+        public IActionResult SaveProviderData(Dictionary<string,object> values)
+        {
+            var shim = new SHIM_StartConfigurationMS(config);
+            try
+            {
+                config.ChoosenProviderData.SetProperties(values);
+                config.ChoosenProviderData.Test();
+            }
+            catch(Exception ex)
+            {
+                ModelState.AddModelError("Test", ex.Message);
+            }
+            return View("Index", shim);
+        }
     }
 }

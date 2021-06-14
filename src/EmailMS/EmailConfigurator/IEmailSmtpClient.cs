@@ -6,7 +6,6 @@ namespace EmailConfigurator
 {
     public interface IEmailSmtpClient: IData
     {
-        SmtpClient Client();
-        Task Test(string from);
+        SmtpClient Client();        
     }
 }

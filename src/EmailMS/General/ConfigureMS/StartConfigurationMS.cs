@@ -82,7 +82,7 @@ namespace ConfigureMS
         {
             get;
         }
-            DateTime? ConfiguredAt { get; set; }
+        DateTime? ConfiguredAt { get; set; }
         public string ChoosenMainProvider { get; set; }
         IAsyncEnumerable<ValidationResult> StartFinding(string baseDir);
 
@@ -115,7 +115,7 @@ namespace ConfigureMS
         public IDictionary<string, object> WriteProperties();
         public IDictionary<string, object> ReadProperties(); 
         public void SetProperties(IDictionary<string, object> values);
-
+        public Task Test();
     }
     public interface IConfigurableMS {
         string Name { get; set; }

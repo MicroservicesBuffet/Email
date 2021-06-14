@@ -71,7 +71,7 @@ namespace TestEmail
         }
         private async Task Given_Create_RealFileSystem_WithPlugins()
         {
-
+            await Task.Delay(10);
             fileSystem = new FileSystem();
             
             if (fileSystem.Directory.Exists(pathPlugins))

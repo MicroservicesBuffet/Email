@@ -93,15 +93,15 @@ namespace TestEmail
         [Trait("RealTest", "0")]
         public async void TestConfigLoadPlugin()
         {
-            await Runner.AddSteps(
-                _ => Given_Create_RealFileSystem_WithPlugins(),
+            await Runner.AddAsyncSteps(
+                _ => Given_Create_RealFileSystem_WithPlugins()
+                )
+                .AddSteps(
                 _ => When_Create_Configurable_EmailSettings(),
                 _ => Then_Can_Found_SMTPProviders(),
                 _ => And_Choose_The_SmtpProvider(ConfigureEmail.smtpProvidersFolder, "SimpleSMTP"),
                 _ => Then_Configuration_Is_Complete(true),
                 _ => When_Load_Choosen_SMTP()
-
-
             )
             .RunAsync();
 
