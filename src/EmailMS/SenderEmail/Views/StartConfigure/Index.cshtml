@@ -1,22 +1,22 @@
-﻿@model  ConfigureMS.SHIM_StartConfigurationMS
+﻿@model ConfigureMS.SHIM_StartConfigurationMS
 
 @{
     Model.ChoosenMainProvider ??= "";
-
+    var provData = Model.ChoosenProviderData;
     ViewData["Title"] = "Customize";
     bool wasConfigured = Model.IsConfigured();
     SelectListItem[] Mainproviders = new SelectListItem[0];
     if (Model.MainProviders?.Length > 0)
     {
         var nr = Model.MainProviders.Length;
-        Mainproviders = new SelectListItem[nr+1];
+        Mainproviders = new SelectListItem[nr + 1];
         for (int i = 0; i < nr; i++)
         {
             var str = Model.MainProviders[i];
             Mainproviders[i] = new SelectListItem(str, str);
 
         }
-        Mainproviders[nr] = new SelectListItem("Please choose", "");
+        Mainproviders[nr] = new SelectListItem("Providers List", "");
     }
 }
 <style>
@@ -39,16 +39,49 @@
         Last Configuration: @Model.ConfiguredAt
     </text>
 }
-<form asp-controller="Home" asp-action="Save" method="post">
+<form asp-controller="StartConfigure" asp-action="SaveProvider" method="post">
     <div asp-validation-summary="All"></div>
 
-    Providers @Model.MainProviders.Length :
+    Found @Model?.MainProviders?.Length  Providers in the folder @Model.BaseFolder
+    <br />
+    <select asp-for="ChoosenMainProvider" asp-items="Mainproviders"></select>
 
-     @Model.ChoosenMainProvider 
-    <select  asp-for="ChoosenMainProvider" asp-items="Mainproviders"></select>
-
+    <input type="submit" value="Choose Provider" />
 
 </form>
+<br />
+@if (!string.IsNullOrWhiteSpace(Model.ChoosenMainProvider))
+{
+    if (provData != null)
+    {
+        var write = provData.WriteProperties();
+        @foreach (var item in provData.ReadProperties())
+        {
+            var key = item.Key;
+            if (!write.ContainsKey(key))
+            {
+                <p>
+                    @item.Key : @item.Value
+                </p>
+
+            }
+
+        }
+        <br />
+        <form asp-controller="StartConfigure" asp-action="SaveProviderData" method="post">
+
+            @foreach (var item in write)
+            {
+                <label>@item.Key</label>
+                <input value="@item.Value" />
+                <br />
+            }
+            <input type="submit" value="Save Data for @Model.ChoosenMainProvider" />
+
+        </form>
+    }
+
+}
 
 
 

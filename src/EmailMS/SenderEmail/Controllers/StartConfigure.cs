@@ -32,5 +32,18 @@ namespace SenderEmail.Controllers
             var model = new SHIM_StartConfigurationMS(config);
             return View(model);
         }
+        [HttpPost]
+        public async Task<IActionResult> SaveProvider(SHIM_StartConfigurationMS configUser)
+        {
+            config.ChoosenMainProvider = configUser.ChoosenMainProvider?.Trim();
+            if (string.IsNullOrWhiteSpace(config.ChoosenMainProvider))
+            {
+                return View("Index");
+            }
+            config.ChooseConfiguration("smtpProviders", config.ChoosenMainProvider);
+            await config.LoadConfiguration();
+            var shim = new SHIM_StartConfigurationMS(config);
+            return View("Index", shim);
+        }
     }
 }

@@ -136,7 +136,7 @@ namespace EmailConfigurator
             if (typeLoaded == null)
                 throw new ArgumentException($"cannot find {nameof(IEmailSmtpClient)} in {nameDll}");
 
-            ChoosenSMTPClient = (IEmailSmtpClient)Activator.CreateInstance(typeLoaded);
+            ChoosenProviderData = (IEmailSmtpClient)Activator.CreateInstance(typeLoaded);
             return Task.FromResult(1);
         }
 
@@ -153,15 +153,17 @@ namespace EmailConfigurator
             {
                 throw new ArgumentException(item.ErrorMessage, item.MemberNames?.FirstOrDefault());
             }
-            this.ChooseConfiguration(smtpProvidersFolder, me.ChoosenMainProvider);
+            this.ChooseConfiguration(smtpProvidersFolder, ChoosenMainProvider);
             return 1;
 
         }
 
         public string BaseFolder { get; private set; }
-        public string ChoosenMainProvider { get; private set; }
+        public string ChoosenMainProvider { get; set; }
         public string[] MainProviders { get; set; }
+        
+        public IData ChoosenProviderData { get; set; }
 
-        public IEmailSmtpClient ChoosenSMTPClient;
+        //public IEmailSmtpClient ChoosenSMTPClient;
     }
 }
