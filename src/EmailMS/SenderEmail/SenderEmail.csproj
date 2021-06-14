@@ -3,7 +3,18 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <CopyRefAssembliesToPublishDirectory>false</CopyRefAssembliesToPublishDirectory>
+    <UpToDateReloadFileTypes>$(UpToDateReloadFileTypes);*.cshtml;*.razor</UpToDateReloadFileTypes> 
   </PropertyGroup>
+
+  <ItemGroup>
+   
+    <Compile Remove="smtpProviders\**" />
+   
+    <Compile Remove="wwwroot\plugins\smtpProviders\**" />
+    <Content Remove="wwwroot\plugins\smtpProviders\**" />
+    <EmbeddedResource Remove="wwwroot\plugins\smtpProviders\**" />
+    <None Remove="wwwroot\plugins\smtpProviders\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.6" />
@@ -13,6 +24,10 @@
   <ItemGroup>
     <ProjectReference Include="..\EmailConfigurator\EmailConfigurator.csproj" />
     <ProjectReference Include="..\General\ConfigureMS\ConfigureMS.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\plugins\" />
   </ItemGroup>
 
 </Project>
