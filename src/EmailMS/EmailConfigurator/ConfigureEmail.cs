@@ -57,7 +57,7 @@ namespace EmailConfigurator
                 });
                 yield break;
             }
-            EmailSmtp = fileSystem.Directory
+            MainProviders = fileSystem.Directory
                 .GetDirectories(emailProviderPath)
                 .ToArray()
                 .Select(it => it.Substring(emailProviderPath.Length+1))
@@ -84,7 +84,7 @@ namespace EmailConfigurator
         {
             if (!string.Equals(name, smtpProvidersFolder, StringComparison.CurrentCultureIgnoreCase))
                 throw new ArgumentException($"you can configure just {smtpProvidersFolder}");
-            switch(EmailSmtp?.Length)
+            switch(MainProviders?.Length)
             {
                 case null:
                     throw new ArgumentException($"please call {nameof(StartFinding)}");
@@ -92,9 +92,9 @@ namespace EmailConfigurator
                     throw new ArgumentException($"did you have plugins in the folder called in {nameof(StartFinding)}");
                 default:
                     value = value?.Trim();
-                    ChoosenSmtp = EmailSmtp.FirstOrDefault(it => string.Equals(it, value,StringComparison.CurrentCultureIgnoreCase));
+                    ChoosenSmtp = MainProviders.FirstOrDefault(it => string.Equals(it, value,StringComparison.CurrentCultureIgnoreCase));
                     if (ChoosenSmtp == null) 
-                        throw new ArgumentException($"value {value} must be one of {string.Join(",",EmailSmtp)}",nameof(value));
+                        throw new ArgumentException($"value {value} must be one of {string.Join(",",MainProviders)}",nameof(value));
                     
                     ConfiguredAt = DateTime.UtcNow;
                     break;
@@ -160,7 +160,7 @@ namespace EmailConfigurator
 
         public string BaseFolder { get; private set; }
         public string ChoosenSmtp { get; private set; }
-        public string[] EmailSmtp { get; set; }
+        public string[] MainProviders { get; set; }
 
         public IEmailSmtpClient ChoosenSMTPClient;
     }

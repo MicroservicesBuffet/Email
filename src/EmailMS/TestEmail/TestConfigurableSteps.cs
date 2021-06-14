@@ -115,7 +115,7 @@ namespace TestEmail
 
         private void And_The_Number_of_SMTPProviders_is(int nr)
         {
-            Assert.Equal(nr, configure.EmailSmtp?.Length);//"no errors expected");
+            Assert.Equal(nr, configure.MainProviders?.Length);//"no errors expected");
         }
 
         private async void Then_Configuration_Is_Complete(bool value)

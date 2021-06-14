@@ -20,7 +20,10 @@ namespace ConfigureMS
         public Task<int> LoadConfiguration();
         Task<int> ConfigureAgain();
 
-        
+        public string[] MainProviders { get; }
+
+
+
     }
     public interface ISaveAndLoadData
     {
