@@ -1,19 +1,22 @@
 ﻿@model  ConfigureMS.SHIM_StartConfigurationMS
 
 @{
+    Model.ChoosenMainProvider ??= "";
+
     ViewData["Title"] = "Customize";
     bool wasConfigured = Model.IsConfigured();
     SelectListItem[] Mainproviders = new SelectListItem[0];
     if (Model.MainProviders?.Length > 0)
     {
         var nr = Model.MainProviders.Length;
-        Mainproviders = new SelectListItem[nr];
+        Mainproviders = new SelectListItem[nr+1];
         for (int i = 0; i < nr; i++)
         {
             var str = Model.MainProviders[i];
             Mainproviders[i] = new SelectListItem(str, str);
 
         }
+        Mainproviders[nr] = new SelectListItem("Please choose", "");
     }
 }
 <style>
@@ -41,6 +44,7 @@
 
     Providers @Model.MainProviders.Length :
 
+     @Model.ChoosenMainProvider 
     <select  asp-for="ChoosenMainProvider" asp-items="Mainproviders"></select>
 
 
