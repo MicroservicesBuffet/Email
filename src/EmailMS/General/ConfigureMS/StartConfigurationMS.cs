@@ -16,7 +16,7 @@ namespace ConfigureMS
             this.MainProviders = configure.MainProviders;
         }
         public bool IsConfigured() => ConfiguredAt != null;
-
+         
         public string Name { get; set; }
 
         public DateTime? ConfiguredAt { get; set; }

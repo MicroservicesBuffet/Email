@@ -21,7 +21,7 @@ namespace EmailConfigurator
     {
         public ConfigureEmail(IFileSystem fileSystem )
         {
-            this.fileSystem = fileSystem;
+            this.fileSystem = fileSystem; 
             this.Name = "ConfigureEmail";
         }
         public DateTime? ConfiguredAt { get; set; }

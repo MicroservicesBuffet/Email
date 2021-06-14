@@ -1,6 +1,4 @@
-﻿@using System.Linq;
-@Model  ConfigureMS.SHIM_StartConfigurationMS
-@*@inject ConfigureMS.StartConfigurationMS configure;*@
+﻿@model  ConfigureMS.SHIM_StartConfigurationMS
 
 @{
     ViewData["Title"] = "Customize";
@@ -43,7 +41,7 @@
 
     Providers @Model.MainProviders.Length :
 
-    <select asp-for="ChoosenMainProvider" asp-items="Mainproviders"></select>
+    <select  asp-for="ChoosenMainProvider" asp-items="Mainproviders"></select>
 
 
 </form>
