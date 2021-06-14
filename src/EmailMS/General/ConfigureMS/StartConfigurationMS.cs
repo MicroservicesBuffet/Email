@@ -11,7 +11,7 @@ namespace ConfigureMS
         bool IsConfigured()=> ConfiguredAt != null;
 
         DateTime? ConfiguredAt { get; set; }
-
+        public string ChoosenMainProvider { get; }
         IAsyncEnumerable<ValidationResult> StartFinding(string baseDir);
 
         Task<bool> IsComplete { get; }

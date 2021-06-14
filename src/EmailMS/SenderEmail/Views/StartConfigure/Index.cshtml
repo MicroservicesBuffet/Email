@@ -1,9 +1,22 @@
-﻿
-@inject ConfigureMS.StartConfigurationMS configure;
+﻿@using System.Linq;
+@Model  ConfigureMS.StartConfigurationMS
+@*@inject ConfigureMS.StartConfigurationMS configure;*@
 
 @{
     ViewData["Title"] = "Customize";
-    bool wasConfigured = configure.IsConfigured();
+    bool wasConfigured = Model.ConfiguredAt != null;
+    SelectListItem[] Mainproviders = new SelectListItem[0];
+    if (wasConfigured && Model.Mainproviders?.Length>0)
+    {
+        var nr = Model.Mainproviders.Length;
+        Mainproviders = new SelectListItem[nr];
+        for (int i = 0; i < nr; i++)
+        {
+            var str = Model.MainProviders[i];
+            Mainproviders[i] = new SelectListItem(str,str);
+
+        }
+    }
 }
 <style>
     .field-validation-error {
@@ -13,23 +26,24 @@
     .validation-summary-errors {
         color: red
     }
-</style> 
+</style>
 
 <div class="text-center">
-    <h1 class="display-4">Start Customizing @configure.Name</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Start Customizing @Model.Name</h1>
 </div>
 
 @if (wasConfigured)
 {
     <text>
-        Last Configuration: @configure.ConfiguredAt
+        Last Configuration: @Model.ConfiguredAt
     </text>
 }
 <form asp-controller="Home" asp-action="Save" method="post">
     <div asp-validation-summary="All"></div>
 
-    Providers @configure.MainProviders.Length :
+    Providers @Model.MainProviders.Length :
+    
+
 </form>
 
 

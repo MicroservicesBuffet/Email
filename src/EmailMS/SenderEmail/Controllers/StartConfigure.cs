@@ -1,6 +1,7 @@
 ﻿using ConfigureMS;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -27,8 +28,8 @@ namespace SenderEmail.Controllers
             await foreach (var item in config.StartFinding(pluginsFolder))
             {
                 ModelState.AddModelError(item.MemberNames.FirstOrDefault() ?? "error", item.ErrorMessage);
-            };
-            return View();
+            }
+            return View(config);
         }
     }
 }

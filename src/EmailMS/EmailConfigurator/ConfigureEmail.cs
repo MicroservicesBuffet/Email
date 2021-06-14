@@ -74,7 +74,7 @@ namespace EmailConfigurator
             {
                 yield return new ValidationResult("not configured", new[] { nameof(ConfiguredAt) });
             }
-            if (ChoosenSmtp == null)
+            if (ChoosenMainProvider == null)
             {
                 yield return new ValidationResult($"please call {nameof(ChooseConfiguration)}", new[] { nameof(ConfiguredAt) });
             }
@@ -92,8 +92,8 @@ namespace EmailConfigurator
                     throw new ArgumentException($"did you have plugins in the folder called in {nameof(StartFinding)}");
                 default:
                     value = value?.Trim();
-                    ChoosenSmtp = MainProviders.FirstOrDefault(it => string.Equals(it, value,StringComparison.CurrentCultureIgnoreCase));
-                    if (ChoosenSmtp == null) 
+                    ChoosenMainProvider = MainProviders.FirstOrDefault(it => string.Equals(it, value,StringComparison.CurrentCultureIgnoreCase));
+                    if (ChoosenMainProvider == null) 
                         throw new ArgumentException($"value {value} must be one of {string.Join(",",MainProviders)}",nameof(value));
                     
                     ConfiguredAt = DateTime.UtcNow;
@@ -119,8 +119,8 @@ namespace EmailConfigurator
         }
         public Task<int> LoadConfiguration()
         {
-            var folder = fileSystem.Path.Combine(BaseFolder, smtpProvidersFolder, ChoosenSmtp);
-            var nameDll = fileSystem.Path.Combine(folder, $"{ChoosenSmtp}.dll");
+            var folder = fileSystem.Path.Combine(BaseFolder, smtpProvidersFolder, ChoosenMainProvider);
+            var nameDll = fileSystem.Path.Combine(folder, $"{ChoosenMainProvider}.dll");
             if (!fileSystem.File.Exists(nameDll))
                 throw new ArgumentException($"dll {nameDll} does not exists");
             
@@ -153,13 +153,13 @@ namespace EmailConfigurator
             {
                 throw new ArgumentException(item.ErrorMessage, item.MemberNames?.FirstOrDefault());
             }
-            this.ChooseConfiguration(smtpProvidersFolder, me.ChoosenSmtp);
+            this.ChooseConfiguration(smtpProvidersFolder, me.ChoosenMainProvider);
             return 1;
 
         }
 
         public string BaseFolder { get; private set; }
-        public string ChoosenSmtp { get; private set; }
+        public string ChoosenMainProvider { get; private set; }
         public string[] MainProviders { get; set; }
 
         public IEmailSmtpClient ChoosenSMTPClient;

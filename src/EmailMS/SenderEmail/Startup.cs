@@ -32,6 +32,7 @@ namespace SenderEmail
             services.AddSingleton<IRepoMS>(s => new RepoMSFile("email.json", s.GetRequiredService<IFileSystem>()));
             services.AddSingleton<StartConfigurationMS, ConfigureEmail>();
             services.AddControllersWithViews();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
