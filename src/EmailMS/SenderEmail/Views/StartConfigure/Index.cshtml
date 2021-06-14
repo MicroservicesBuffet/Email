@@ -6,9 +6,9 @@
     ViewData["Title"] = "Customize";
     bool wasConfigured = Model.ConfiguredAt != null;
     SelectListItem[] Mainproviders = new SelectListItem[0];
-    if (wasConfigured && Model.Mainproviders?.Length>0)
+    if (Model.MainProviders?.Length>0)
     {
-        var nr = Model.Mainproviders.Length;
+        var nr = Model.MainProviders.Length;
         Mainproviders = new SelectListItem[nr];
         for (int i = 0; i < nr; i++)
         {
@@ -41,8 +41,10 @@
 <form asp-controller="Home" asp-action="Save" method="post">
     <div asp-validation-summary="All"></div>
 
-    Providers @Model.MainProviders.Length :
-    
+Providers @Model.MainProviders.Length :
+
+<select asp-for="ChoosenMainProvider"  asp-items="Mainproviders"></select>
+
 
 </form>
 
