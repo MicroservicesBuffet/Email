@@ -47,12 +47,13 @@ namespace SenderEmail.Controllers
         }
 
         [HttpPost]
-        public IActionResult Test(Dictionary<string,object> values)
+        public IActionResult Test(Dictionary<string,string> myValues)
         {
             var shim = new SHIM_StartConfigurationMS(config);
             try
             {
-                config.ChoosenProviderData.SetProperties(values);
+                var d = myValues?.ToDictionary(it => it.Key, it => (object)it.Value);
+                config.ChoosenProviderData.SetProperties(d);
                 config.ChoosenProviderData.Test();
             }
             catch(Exception ex)

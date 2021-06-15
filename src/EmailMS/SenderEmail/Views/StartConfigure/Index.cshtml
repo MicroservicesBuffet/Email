@@ -70,17 +70,17 @@
         <br />
         <form asp-controller="StartConfigure" asp-action="Test" method="post">
 
-            @{ 
+            @{
                 int nr = -1;
                 foreach (var item in write)
                 {
                     nr++;
 
                     <label>@item.Key</label>
-                    <input name="values[@nr].Value" value="@item.Value" />
-                    <input type="hidden" name="values[@nr].Key" value="@item.Key" />
+                    <input type="hidden" name="myValues[@nr].Key" value="@item.Key" />
+                    <input name="myValues[@nr].Value" value="@item.Value" />
                     <br />
-                    
+
                 }
             }
             <input type="submit" value="Test @Model.ChoosenMainProvider" />
