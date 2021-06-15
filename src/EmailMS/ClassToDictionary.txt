@@ -52,8 +52,30 @@ namespace {{NamespaceName}} {
     private void WriteMyProperties(IDictionary<string,object> values){
 {{~ for p in Properties ~}}
     {{ if !p.IsReadOnly }} //{{!p.IsWriteOnly}} {{!p.IsReadOnly}}
-        if(values.ContainsKey("{{p.Name}}"))
-        this.{{p.Name}} = ({{p.ReturnType}})(values["{{p.Name}}"]);    
+        if(values.ContainsKey("{{p.Name}}")){
+            
+            {{ case p.ReturnType
+                when "string"
+            }}
+                this.{{p.Name}} = values["{{p.Name}}"]?.ToString();
+            {{
+              when "int"
+            }}
+                try{
+                this.{{p.Name}} =int.Parse(values["{{p.Name}}"]?.ToString());
+                }
+                catch(Exception ex){
+                    throw new ArgumentException("Port: "+ex.Message,"Port");
+                }
+            {{
+                else
+            }}
+                this.{{p.Name}} = ({{p.ReturnType}})(values["{{p.Name}}"]);    
+            {{
+                end
+            }}
+        }
+            
     {{ end }}
 {{ end }}
         
