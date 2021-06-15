@@ -47,7 +47,7 @@ namespace SenderEmail.Controllers
         }
 
         [HttpPost]
-        public IActionResult SaveProviderData(Dictionary<string,object> values)
+        public IActionResult Test(Dictionary<string,object> values)
         {
             var shim = new SHIM_StartConfigurationMS(config);
             try

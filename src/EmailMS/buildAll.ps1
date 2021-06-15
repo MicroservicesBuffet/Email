@@ -1,3 +1,4 @@
+rmdir .\SenderEmail\wwwroot\plugins\ -r -force
 dotnet clean
 dotnet restore
 dotnet build -c Debug --no-restore
