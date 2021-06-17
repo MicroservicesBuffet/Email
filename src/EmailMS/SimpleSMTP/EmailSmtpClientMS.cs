@@ -20,7 +20,7 @@ namespace SimpleSMTP
         {
 
             Port = 25;
-         
+
         }
         public string Name { get; set; }
 
@@ -50,18 +50,20 @@ namespace SimpleSMTP
             return new SmtpClient(Host, Port);
         }
 
-        Task IData.Restore(string data)
-        {
-            var me = JsonSerializer.Deserialize<EmailSmtpClientMS>(data);
-            this.Host = me.Host;
-            this.Port = me.Port;
-            return Task.CompletedTask;
-        }
 
-        Task<string> IData.SavedData()
+        string IData.SavedData
         {
-            var data = JsonSerializer.Serialize(this);
-            return Task.FromResult(data);
+            get
+            {
+                var data = JsonSerializer.Serialize(this);
+                return data;
+            }
+            set
+            {
+                var me = JsonSerializer.Deserialize<EmailSmtpClientMS>(value);
+                this.Host = me.Host;
+                this.Port = me.Port;
+            }
         }
 
         IDictionary<string, object> IData.WriteProperties()
@@ -89,7 +91,7 @@ namespace SimpleSMTP
             return dict;
         }
 
-        Task IData.Test() 
+        Task IData.Test()
         {
             return Client().SendMailAsync(From, From, "TestEmail", "Welcome configurable email!");
         }

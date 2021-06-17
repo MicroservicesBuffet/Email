@@ -31,25 +31,27 @@ namespace EmailSmtpClientGmail
 
         }
 
-        Task IData.Restore(string data)
+
+        string IData.SavedData
         {
-            var me = JsonSerializer.Deserialize<EmailSmtpClientMS_Gmail>(data);
-            this.Host = me.Host;
-            this.Port = me.Port;
-            this.UserName = me.UserName;
-            this.Password = me.Password;
-            return Task.CompletedTask;
+            get
+            {
+                var data = JsonSerializer.Serialize(this);
+                return data;
+            }
+            set
+            {
+                var me = JsonSerializer.Deserialize<EmailSmtpClientMS>(value);
+                this.Host = me.Host;
+                this.Port = me.Port;
+            }
         }
 
-        Task<string> IData.SavedData()
-        {
-            var data = JsonSerializer.Serialize(this);
-            return Task.FromResult(data);
-        }
-        //HashSet<string> IData.Properties()
-        //{
-        //    throw new NotImplementedException();
-        //}
+    
+    //HashSet<string> IData.Properties()
+    //{
+    //    throw new NotImplementedException();
+    //}
 
-    }
+}
 }

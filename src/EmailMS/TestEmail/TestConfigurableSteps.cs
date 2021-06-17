@@ -89,7 +89,7 @@ namespace TestEmail
         }
         private async void And_Restore_Configuration()
         {
-            await configure.SaveData(new RepoMSFile("andrei.txt", fileSystem));
+            await configure.LoadData(new RepoMSFile("andrei.txt", fileSystem));
         }
 
         private async void And_Save_Configuration()
@@ -120,7 +120,7 @@ namespace TestEmail
 
         private async void Then_Configuration_Is_Complete(bool value)
         {
-            var complete = await configure.IsComplete;
+            var complete = await configure.IsComplete();
             Assert.Equal(value, complete);
         }
         private void And_Choose_The_SmtpProvider(string name,string value)

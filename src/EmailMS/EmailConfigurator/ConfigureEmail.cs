@@ -25,16 +25,14 @@ namespace EmailConfigurator
             this.Name = "ConfigureEmail";
         }
         public DateTime? ConfiguredAt { get; set; }
-        public Task<bool> IsComplete
+        public Task<bool> IsComplete()
         {
-            get
-            {                
-                foreach (var item in Validate(null))
-                {
-                    return Task.FromResult(false);
-                }
-                return Task.FromResult(true);
+            foreach (var item in Validate(null))
+            {
+                return Task.FromResult(false);
             }
+            return Task.FromResult(true);
+
         }
         public Task<int> ConfigureAgain()
         {
@@ -104,11 +102,11 @@ namespace EmailConfigurator
 
         public  async Task<int> SaveData(IRepoMS repo)
         {
-            var c = await IsComplete;
+            var c = await IsComplete();
             if (!c)
                 throw new ValidationException($" should be valid , please use {nameof(ChooseConfiguration)}");
 
-            return await repo.SaveData<ConfigureEmail>(this);
+            return await repo.SaveData<ConfigureEmail>((dynamic)this);
             //var data = JsonSerializer.Serialize(this);
             //var name = this.GetType().Name;
             //var fullName = fileSystem.Path.Combine(BaseFolder, name);

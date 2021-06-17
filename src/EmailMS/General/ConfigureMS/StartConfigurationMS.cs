@@ -21,6 +21,15 @@ namespace ConfigureMS
             this.BaseFolder = configure.BaseFolder;
             this.ChoosenProviderData = configure.ChoosenProviderData;
         }
+        public Task<bool> IsComplete()
+        {
+            foreach (var item in Validate(null))
+            {
+                return Task.FromResult(false);
+            }
+            return Task.FromResult(true);
+
+        }
         public bool IsConfigured() => ConfiguredAt != null;
          
         public string Name { get; set; }
@@ -33,7 +42,6 @@ namespace ConfigureMS
         }
         public string ChoosenMainProvider { get; set; }
 
-        public Task<bool> IsComplete { get; set; }
 
         public string[] MainProviders { get; set; }
 
@@ -86,7 +94,7 @@ namespace ConfigureMS
         public string ChoosenMainProvider { get; set; }
         IAsyncEnumerable<ValidationResult> StartFinding(string baseDir);
 
-        Task<bool> IsComplete { get; }
+        Task<bool> IsComplete();
 
         void ChooseConfiguration(string name, string value);
         public Task<int> LoadConfiguration();
@@ -110,8 +118,8 @@ namespace ConfigureMS
     }
     public interface IData {
 
-        Task<string> SavedData();
-        Task Restore(string data);
+        string SavedData { get; set; }
+        
         public IDictionary<string, object> WriteProperties();
         public IDictionary<string, object> ReadProperties(); 
         public void SetProperties(IDictionary<string, object> values);
