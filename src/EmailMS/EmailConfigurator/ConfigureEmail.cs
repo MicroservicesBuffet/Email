@@ -19,6 +19,11 @@ namespace EmailConfigurator
     
     public class ConfigureEmail : IStartConfigurationMS, ISaveAndLoadData
     {
+        public ConfigureEmail()
+        {
+            this.fileSystem = new FileSystem();
+            this.Name = "constructed";
+        }
         public ConfigureEmail(IFileSystem fileSystem )
         {
             this.fileSystem = fileSystem; 
@@ -39,7 +44,7 @@ namespace EmailConfigurator
             throw new NotImplementedException();
         }
         public const string smtpProvidersFolder = "smtpProviders";
-        private readonly IFileSystem fileSystem;
+        private IFileSystem fileSystem;
 
         public string Name { get; }
 
@@ -141,12 +146,13 @@ namespace EmailConfigurator
         public async Task<int> LoadData(IRepoMS repo)
         {
             var me = await repo.GetItem<ConfigureEmail>();
-
+            me.fileSystem = this.fileSystem;
             //todo: do not use reflection
             //var name = this.GetType().Name;
             //var fullName = fileSystem.Path.Combine(BaseFolder, name);
             //var data= await fileSystem.File.ReadAllTextAsync(fullName);
             //var me = JsonSerializer.Deserialize<ConfigureEmail>(data);
+            this.BaseFolder = me.BaseFolder;
             await foreach (var item in this.StartFinding(me.BaseFolder))
             {
                 throw new ArgumentException(item.ErrorMessage, item.MemberNames?.FirstOrDefault());
@@ -156,7 +162,7 @@ namespace EmailConfigurator
 
         }
 
-        public string BaseFolder { get; private set; }
+        public string BaseFolder { get; set; }
         public string ChoosenMainProvider { get; set; }
         public string[] MainProviders { get; set; }
         
