@@ -35,19 +35,17 @@ namespace {{NamespaceName}} {
         var data=new Dictionary<string,PropertyHelper>();
         PropertyHelper ph;
 {{~ for p in Properties ~}}
+    {{ if !( p.Name | string.contains ".") }}
         ph=new PropertyHelper();
         ph.Name = "{{p.Name}}";
         ph.Type = "{{p.ReturnType}}";
         ph.CanRead = !{{p.IsWriteOnly}};
         ph.CanWrite = !{{p.IsReadOnly}};
         {{ if !p.IsWriteOnly }} 
-            {{ if !( p.Name | string.contains ".") }}
             ph.Value = this.{{p.Name}}; 
-            {{ else}}
-            // should we put also other props  , like {{p.Name}}  ?
-            {{end}}
         {{ end}}
         data.Add("{{p.Name}}", ph);
+    {{ end }}
         //{{p.Name}} {{p.ReturnType}}     
 {{ end }}
         return data;
