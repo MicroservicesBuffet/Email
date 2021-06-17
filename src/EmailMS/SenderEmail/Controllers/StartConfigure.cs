@@ -13,11 +13,13 @@ namespace SenderEmail.Controllers
 {
     public class StartConfigureController : Controller
     {
+        private readonly IRepoMS data;
         private readonly IStartConfigurationMS config;
         private readonly ILogger<StartConfigureController> _logger;
 
-        public StartConfigureController(IStartConfigurationMS config, ILogger<StartConfigureController> logger)
+        public StartConfigureController(IRepoMS data, IStartConfigurationMS config, ILogger<StartConfigureController> logger)
         {
+            this.data = data;
             this.config = config;
             _logger = logger;
 
@@ -47,14 +49,15 @@ namespace SenderEmail.Controllers
         }
 
         [HttpPost]
-        public IActionResult Test(Dictionary<string,string> myValues)
+        public async Task<IActionResult> Test(Dictionary<string,string> myValues)
         {
             var shim = new SHIM_StartConfigurationMS(config);
             try
             {
                 var d = myValues?.ToDictionary(it => it.Key, it => (object)it.Value);
                 config.ChoosenProviderData.SetProperties(d);
-                config.ChoosenProviderData.Test();
+                await config.ChoosenProviderData.Test();
+                await config.SaveData(data);
             }
             catch(Exception ex)
             {
