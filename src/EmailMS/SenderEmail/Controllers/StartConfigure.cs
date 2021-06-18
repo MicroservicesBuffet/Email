@@ -31,6 +31,18 @@ namespace SenderEmail.Controllers
             {
                 ModelState.AddModelError(item.MemberNames.FirstOrDefault() ?? "error", item.ErrorMessage);
             }
+            try
+            {
+                await config.LoadData(data);
+                if (config.IsConfigured())
+                {
+                    return RedirectToAction("ConfigurationSaved");
+                }
+            }
+            catch
+            {
+                //do nothing 
+            }
             var model = new SHIM_StartConfigurationMS(config);
             return View(model);
         }

@@ -18,6 +18,8 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.6" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+    <PackageReference Include="AOPMethodsCommon" Version="2021.6.11.907" />
+
   </ItemGroup>
 
   <ItemGroup>

@@ -111,7 +111,7 @@ namespace EmailConfigurator
             if (!c)
                 throw new ValidationException($" should be valid , please use {nameof(ChooseConfiguration)}");
 
-            return await repo.SaveData<ConfigureEmail>((dynamic)this);
+            return await repo.SaveData<ConfigureEmail>(this);
             //var data = JsonSerializer.Serialize(this);
             //var name = this.GetType().Name;
             //var fullName = fileSystem.Path.Combine(BaseFolder, name);
