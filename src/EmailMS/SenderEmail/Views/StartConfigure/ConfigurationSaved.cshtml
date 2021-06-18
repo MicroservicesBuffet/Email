@@ -1,0 +1,49 @@
+﻿@model ConfigureMS.SHIM_StartConfigurationMS
+
+@{
+    ViewData["Title"] = "ConfigurationSaved";
+}
+
+<h1>ConfigurationSaved</h1>
+
+<div>
+    <h4>SHIM_StartConfigurationMS</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ConfiguredAt)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ConfiguredAt)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.BaseFolder)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.BaseFolder)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ChoosenMainProvider)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ChoosenMainProvider)
+        </dd>
+        <dt class="col-sm-2">
+            Provider Data
+        </dt>
+        <dd class="col-sm-10">
+            @Model.ChoosenProviderData.SavedData
+        </dd>
+
+
+    </dl>
+</div>
+<div>
+    <a asp-action="Index">Back to Configure</a>
+</div>

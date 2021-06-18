@@ -57,7 +57,9 @@ namespace SenderEmail.Controllers
                 var d = myValues?.ToDictionary(it => it.Key, it => (object)it.Value);
                 config.ChoosenProviderData.SetProperties(d);
                 await config.ChoosenProviderData.Test();
+                config.ConfiguredAt = DateTime.Now;
                 await config.SaveData(data);
+                return RedirectToAction("ConfigurationSaved");
             }
             catch(Exception ex)
             {
@@ -65,5 +67,15 @@ namespace SenderEmail.Controllers
             }
             return View("Index", shim);
         }
+
+        public IActionResult ConfigurationSaved()
+        {
+            if (!config.IsConfigured())
+                return RedirectToAction("Index");
+
+            var shim = new SHIM_StartConfigurationMS(config);
+            return View(shim);
+        }
+
     }
 }
