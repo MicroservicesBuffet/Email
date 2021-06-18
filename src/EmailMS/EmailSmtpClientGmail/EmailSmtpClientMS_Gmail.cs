@@ -13,7 +13,7 @@ namespace EmailSmtpClientGmail
     public class EmailSmtpClientMS_Gmail : EmailSmtpClientMS,IConfigurableMS , IEmailSmtpClient
     {
         public EmailSmtpClientMS_Gmail()
-        {
+        { 
             this.Host = "smtp.gmail.com";
             this.Port = 587;
             
@@ -32,20 +32,20 @@ namespace EmailSmtpClientGmail
         }
 
 
-        string IData.SavedData
-        {
-            get
-            {
-                var data = JsonSerializer.Serialize(this);
-                return data;
-            }
-            set
-            {
-                var me = JsonSerializer.Deserialize<EmailSmtpClientMS>(value);
-                this.Host = me.Host;
-                this.Port = me.Port;
-            }
-        }
+        //string IData.SavedData
+        //{
+        //    get
+        //    {
+        //        var data = JsonSerializer.Serialize(this);
+        //        return data;
+        //    }
+        //    set
+        //    {
+        //        var me = JsonSerializer.Deserialize<EmailSmtpClientMS>(value);
+        //        this.Host = me.Host;
+        //        this.Port = me.Port;
+        //    }
+        //}
 
     
     //HashSet<string> IData.Properties()

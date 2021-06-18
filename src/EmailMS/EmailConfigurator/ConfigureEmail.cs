@@ -111,12 +111,14 @@ namespace EmailConfigurator
             if (!c)
                 throw new ValidationException($" should be valid , please use {nameof(ChooseConfiguration)}");
 
-            return await repo.SaveData<ConfigureEmail>(this);
+            await repo.SaveData<ConfigureEmail>(this);
+            await this.ChoosenProviderData.SaveData(repo);
+            //await repo.SaveData<IEmailSmtpClient>(this.ChoosenProviderData as IEmailSmtpClient);
             //var data = JsonSerializer.Serialize(this);
             //var name = this.GetType().Name;
             //var fullName = fileSystem.Path.Combine(BaseFolder, name);
             //await fileSystem.File.WriteAllTextAsync(fullName, data);
-            
+            return 0;
             //return data.Length;
         
         }
@@ -165,9 +167,10 @@ namespace EmailConfigurator
         public string BaseFolder { get; set; }
         public string ChoosenMainProvider { get; set; }
         public string[] MainProviders { get; set; }
-        
+        [System.Text.Json.Serialization.JsonIgnore]
         public IData ChoosenProviderData { get; set; }
 
+        
         //public IEmailSmtpClient ChoosenSMTPClient;
     }
 }

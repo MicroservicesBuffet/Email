@@ -51,20 +51,20 @@ namespace SimpleSMTP
         }
 
 
-        string IData.SavedData
-        {
-            get
-            {
-                var data = JsonSerializer.Serialize(this);
-                return data;
-            }
-            set
-            {
-                var me = JsonSerializer.Deserialize<EmailSmtpClientMS>(value);
-                this.Host = me.Host;
-                this.Port = me.Port;
-            }
-        }
+        //string IData.SavedData
+        //{
+        //    get
+        //    {
+        //        var data = JsonSerializer.Serialize(this);
+        //        return data;
+        //    }
+        //    set
+        //    {
+        //        var me = JsonSerializer.Deserialize<EmailSmtpClientMS>(value);
+        //        this.Host = me.Host;
+        //        this.Port = me.Port;
+        //    }
+        //}
 
         IDictionary<string, object> IData.WriteProperties()
         {
@@ -94,6 +94,21 @@ namespace SimpleSMTP
         Task IData.Test()
         {
             return Client().SendMailAsync(From, From, "TestEmail", "Welcome configurable email!");
+        }
+
+        Task<int> ISaveAndLoadData.SaveData(IRepoMS repo)
+        {
+            return repo.SaveData< EmailSmtpClientMS>(this);
+        }
+
+        async Task<int> ISaveAndLoadData.LoadData(IRepoMS repo)
+        {
+            var ms =await  repo.GetItem<EmailSmtpClientMS>();
+            this.Host = ms.Host;
+            this.Port = ms.Port;
+            this.Name = ms.Name;
+            this.From = ms.From;
+            return 0;
         }
     }
 

@@ -116,9 +116,10 @@ namespace ConfigureMS
         Task<T> GetItem<T>();
         Task<int> SaveData<T>(T t);
     }
-    public interface IData {
+    public interface IData : ISaveAndLoadData
+    {
 
-        string SavedData { get; set; }
+        //string SavedData { get; set; }
         
         public IDictionary<string, object> WriteProperties();
         public IDictionary<string, object> ReadProperties(); 

@@ -53,7 +53,7 @@ namespace TestEmail
         }
         [Scenario]
         [ScenarioCategory("TestSaveAndRestore")]
-        [Trait("RealTest", "0")]
+        [Trait("RealTest", "1")]
 
         public async void TestSaveAndRestore()
         {
