@@ -47,7 +47,7 @@ namespace ConfigureMS
 
         public IData ChoosenProviderData { get; set; }
 
-        public void ChooseConfiguration(string name, string value)
+        public Task<int> ChooseConfiguration(string name, string value)
         {
             throw new NotImplementedException();
         }
@@ -96,8 +96,7 @@ namespace ConfigureMS
 
         Task<bool> IsComplete();
 
-        void ChooseConfiguration(string name, string value);
-        public Task<int> LoadConfiguration();
+        Task<int> ChooseConfiguration(string name, string value);
         Task<int> ConfigureAgain();
 
         public string[] MainProviders { get; }

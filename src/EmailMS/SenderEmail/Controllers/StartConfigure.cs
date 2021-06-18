@@ -54,8 +54,8 @@ namespace SenderEmail.Controllers
             {
                 return View("Index");
             }
-            config.ChooseConfiguration("smtpProviders", config.ChoosenMainProvider);
-            await config.LoadConfiguration();
+            await config.ChooseConfiguration("smtpProviders", config.ChoosenMainProvider);
+            ;
             var shim = new SHIM_StartConfigurationMS(config);
             return View("Index", shim);
         }

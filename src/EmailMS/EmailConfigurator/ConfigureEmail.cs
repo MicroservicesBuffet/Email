@@ -17,7 +17,7 @@ namespace EmailConfigurator
 {
 
     
-    public class ConfigureEmail : IStartConfigurationMS, ISaveAndLoadData
+    public class ConfigureEmail : IStartConfigurationMS, ISaveAndLoadData, IDisposable
     {
         public ConfigureEmail()
         {
@@ -83,7 +83,7 @@ namespace EmailConfigurator
             }
         }
         
-        public void ChooseConfiguration(string name, string value)
+        public async Task<int> ChooseConfiguration(string name, string value)
         {
             if (!string.Equals(name, smtpProvidersFolder, StringComparison.CurrentCultureIgnoreCase))
                 throw new ArgumentException($"you can configure just {smtpProvidersFolder}");
@@ -102,7 +102,7 @@ namespace EmailConfigurator
                     ConfiguredAt = DateTime.UtcNow;
                     break;
             }
-            return ;
+            return await LoadConfiguration();
         }
 
         public  async Task<int> SaveData(IRepoMS repo)
@@ -122,14 +122,16 @@ namespace EmailConfigurator
             //return data.Length;
         
         }
-        public Task<int> LoadConfiguration()
+        private PluginLoader loader;
+        private Task<int> LoadConfiguration()
         {
             var folder = fileSystem.Path.Combine(BaseFolder, smtpProvidersFolder, ChoosenMainProvider);
             var nameDll = fileSystem.Path.Combine(folder, $"{ChoosenMainProvider}.dll");
             if (!fileSystem.File.Exists(nameDll))
                 throw new ArgumentException($"dll {nameDll} does not exists");
-            
-             var loader = PluginLoader.CreateFromAssemblyFile(
+             
+            loader?.Dispose();
+            loader = PluginLoader.CreateFromAssemblyFile(
     assemblyFile: nameDll,
     sharedTypes: new[] { typeof(IEmailSmtpClient) },
     isUnloadable: true);
@@ -159,9 +161,14 @@ namespace EmailConfigurator
             {
                 throw new ArgumentException(item.ErrorMessage, item.MemberNames?.FirstOrDefault());
             }
-            this.ChooseConfiguration(smtpProvidersFolder, ChoosenMainProvider);
+            await this.ChooseConfiguration(smtpProvidersFolder, ChoosenMainProvider);
             return 1;
 
+        }
+
+        public void Dispose()
+        {
+            loader?.Dispose();
         }
 
         public string BaseFolder { get; set; }

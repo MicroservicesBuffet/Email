@@ -61,24 +61,33 @@ namespace TestEmail
             fileSystem = new MockFileSystem();
             fileSystem.Directory.CreateDirectory(pathPlugins);
             fileSystem.Directory.CreateDirectory(@$"{pathPlugins}\{ConfigureEmail.smtpProvidersFolder}\gmail");
-            fileSystem.Directory.CreateDirectory(@$"{pathPlugins}\{ConfigureEmail.smtpProvidersFolder}\simple");
+            fileSystem.Directory.CreateDirectory(@$"{pathPlugins}\{ConfigureEmail.smtpProvidersFolder}\SimpleSMTP");
             
-
-        }
-        private async void When_Load_Choosen_SMTP()
-        {
-            await this.configure.LoadConfiguration();
         }
         private async Task Given_Create_RealFileSystem_WithPlugins()
         {
             await Task.Delay(10);
-            fileSystem = new FileSystem();
-            
-            if (fileSystem.Directory.Exists(pathPlugins))
-                fileSystem.Directory.Delete(pathPlugins, true);
-            
-            //await Task.Delay(1000); 
 
+            fileSystem = new FileSystem();
+            bool IsDeleted = false;
+            do
+            {
+                
+                try
+                {
+                    GC.Collect();
+                    if (fileSystem.Directory.Exists(pathPlugins))
+                        fileSystem.Directory.Delete(pathPlugins, true);
+
+                    IsDeleted = true;
+                }
+                catch
+                {
+                    GC.Collect();                    
+                    await Task.Delay(2000);
+                    IsDeleted = false;
+                }
+            } while (!IsDeleted);
             fileSystem.Directory.CreateDirectory(pathPlugins);
             fileSystem.Directory.CreateDirectory(@$"{pathPlugins}\{ConfigureEmail.smtpProvidersFolder}");
             fileSystem.Directory.CreateDirectory(@$"{pathPlugins}\{ConfigureEmail.smtpProvidersFolder}\gmail");
@@ -123,9 +132,9 @@ namespace TestEmail
             var complete = await configure.IsComplete();
             Assert.Equal(value, complete);
         }
-        private void And_Choose_The_SmtpProvider(string name,string value)
+        private async void And_Choose_The_SmtpProvider(string name,string value)
         {
-            configure.ChooseConfiguration(name, value);
+            await configure.ChooseConfiguration(name, value);           
         }
     }
 }
