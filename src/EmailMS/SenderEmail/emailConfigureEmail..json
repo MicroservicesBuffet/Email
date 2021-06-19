@@ -1,1 +1,10 @@
-{"ConfiguredAt":"2021-06-19T08:56:01.7219596+03:00","Name":"ConfigureEmail","BaseFolder":"E:\\ignatandrei\\Email\\src\\EmailMS\\SenderEmail\\wwwroot\\plugins","ChoosenMainProvider":"SimpleSMTP","MainProviders":["EmailSmtpClientGmail","SimpleSMTP"]}
+{
+  "ConfiguredAt": "2021-06-19T09:12:03.3477108+03:00",
+  "Name": "ConfigureEmail",
+  "BaseFolder": "E:\\ignatandrei\\Email\\src\\EmailMS\\SenderEmail\\wwwroot\\plugins",
+  "ChoosenMainProvider": "SimpleSMTP",
+  "MainProviders": [
+    "EmailSmtpClientGmail",
+    "SimpleSMTP"
+  ]
+}

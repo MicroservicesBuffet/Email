@@ -162,6 +162,7 @@ namespace EmailConfigurator
                 throw new ArgumentException(item.ErrorMessage, item.MemberNames?.FirstOrDefault());
             }
             await this.ChooseConfiguration(smtpProvidersFolder, ChoosenMainProvider);
+            await this.ChoosenProviderData.LoadData(repo);
             return 1;
 
         }

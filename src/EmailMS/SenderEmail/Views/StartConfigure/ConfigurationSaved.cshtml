@@ -34,13 +34,18 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.ChoosenMainProvider)
         </dd>
-        @*<dt class="col-sm-2">
-            Provider Data
-        </dt>
-        <dd class="col-sm-10">
-            @Model.ChoosenProviderData.SavedData
-        </dd>*@
 
+        @{
+            foreach (var item in Model.ChoosenProviderData.ReadProperties())
+            {
+                <dt class="col-sm-2">
+                    @Model.ChoosenMainProvider : @item.Key
+                </dt>
+                <dd class="col-sm-10">
+                    @item.Value
+                </dd>
+            }
+        }
 
     </dl>
 </div>
