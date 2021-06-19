@@ -76,6 +76,7 @@ namespace SenderEmail.Controllers
             }
             catch(Exception ex)
             {
+                config.ConfiguredAt = null;//restore false configuration
                 ModelState.AddModelError("Test", ex.Message);
             }
             return View("Index", shim);
