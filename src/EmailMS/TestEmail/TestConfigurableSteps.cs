@@ -130,9 +130,9 @@ namespace TestEmail
             Assert.Equal(nr, configure.MainProviders?.Length);//"no errors expected");
         }
 
-        private async void Then_Configuration_Is_Complete(bool value)
+        private  void Then_Configuration_Is_Complete(bool value)
         {
-            var complete = await configure.IsComplete();
+            var complete = configure.Validate(null).ToArray().Length == 0;
             Assert.Equal(value, complete);
         }
         private async void And_Choose_The_SmtpProvider(string name,string value)

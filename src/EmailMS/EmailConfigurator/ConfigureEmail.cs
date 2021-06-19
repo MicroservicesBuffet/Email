@@ -30,15 +30,15 @@ namespace EmailConfigurator
             this.Name = "ConfigureEmail";
         }
         public DateTime? ConfiguredAt { get; set; }
-        public Task<bool> IsComplete()
-        {
-            foreach (var item in Validate(null))
-            {
-                return Task.FromResult(false);
-            }
-            return Task.FromResult(true);
+        //public Task<bool> IsComplete()
+        //{
+        //    foreach (var item in Validate(null))
+        //    {
+        //        return Task.FromResult(false);
+        //    }
+        //    return Task.FromResult(true);
 
-        }
+        //}
         public Task<int> ConfigureAgain()
         {
             throw new NotImplementedException();
@@ -79,7 +79,7 @@ namespace EmailConfigurator
             }
             if (ChoosenMainProvider == null)
             {
-                yield return new ValidationResult($"please call {nameof(ChooseConfiguration)}", new[] { nameof(ConfiguredAt) });
+                yield return new ValidationResult($"please call {nameof(ChooseConfiguration)}", new[] { nameof(ChoosenMainProvider) });
             }
         }
         
@@ -107,9 +107,9 @@ namespace EmailConfigurator
 
         public  async Task<int> SaveData(IRepoMS repo)
         {
-            var c = await IsComplete();
-            if (!c)
-                throw new ValidationException($" should be valid , please use {nameof(ChooseConfiguration)}");
+            var c = Validate(null).ToArray();
+            if (c.Length >0)
+                throw new ValidationException(c[0].ErrorMessage);
 
             await repo.SaveData<ConfigureEmail>(this);
             await this.ChoosenProviderData.SaveData(repo);

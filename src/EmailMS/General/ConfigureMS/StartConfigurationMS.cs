@@ -94,7 +94,7 @@ namespace ConfigureMS
         public string ChoosenMainProvider { get; set; }
         IAsyncEnumerable<ValidationResult> StartFinding(string baseDir);
 
-        Task<bool> IsComplete();
+        //Task<bool> IsComplete();
 
         Task<int> ChooseConfiguration(string name, string value);
         Task<int> ConfigureAgain();
