@@ -157,6 +157,7 @@ namespace EmailConfigurator
             //var data= await fileSystem.File.ReadAllTextAsync(fullName);
             //var me = JsonSerializer.Deserialize<ConfigureEmail>(data);
             this.BaseFolder = me.BaseFolder;
+            this.ChoosenMainProvider = me.ChoosenMainProvider;
             await foreach (var item in this.StartFinding(me.BaseFolder))
             {
                 throw new ArgumentException(item.ErrorMessage, item.MemberNames?.FirstOrDefault());

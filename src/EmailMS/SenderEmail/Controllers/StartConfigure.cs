@@ -24,17 +24,18 @@ namespace SenderEmail.Controllers
             _logger = logger;
 
         }
-        public async Task<IActionResult> Index([FromServices]IWebHostEnvironment webHostEnvironment)
+        public async Task<IActionResult> Index( [FromServices]IWebHostEnvironment webHostEnvironment, bool StartOver = false)
         {
             var pluginsFolder = Path.Combine(webHostEnvironment.WebRootPath, "plugins");
             await foreach (var item in config.StartFinding(pluginsFolder))
             {
                 ModelState.AddModelError(item.MemberNames.FirstOrDefault() ?? "error", item.ErrorMessage);
             }
+            if(!StartOver)
             try
             {
                 await config.LoadData(data);
-                if (config.IsConfigured())
+                if (config.IsConfigured()) 
                 {
                     return RedirectToAction("ConfigurationSaved");
                 }
