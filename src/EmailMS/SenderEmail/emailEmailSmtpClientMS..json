@@ -1,8 +1,0 @@
-{
-  "Name": "a",
-  "Type": "EmailSmtpClientMS",
-  "Host": "localhost",
-  "Port": 25,
-  "Description": "EmailSmtpClientMS localhost:25",
-  "From": "asd@asd.com"
-}
