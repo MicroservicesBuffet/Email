@@ -70,9 +70,10 @@ namespace TestEmail
 
             fileSystem = new FileSystem();
             bool IsDeleted = false;
+            int nrRepeat = 10;
             do
             {
-                
+                nrRepeat--;
                 try
                 {
                     GC.Collect();
@@ -87,6 +88,8 @@ namespace TestEmail
                     await Task.Delay(2000);
                     IsDeleted = false;
                 }
+                if (nrRepeat < 0)
+                    break;
             } while (!IsDeleted);
             fileSystem.Directory.CreateDirectory(pathPlugins);
             fileSystem.Directory.CreateDirectory(@$"{pathPlugins}\{ConfigureEmail.smtpProvidersFolder}");

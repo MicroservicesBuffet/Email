@@ -51,14 +51,19 @@ namespace ConfigureMS
         public async Task<int> SaveData<T>(T t)
         {
             ////System.Text.Json cannot serialize properly interfaces
-            var data = JsonSerializer.Serialize(t);
+            var data = JsonSerializer.Serialize(t,
+                
+                new JsonSerializerOptions()
+                {
+                    WriteIndented =true
+                });
   //          var data= JsonConvert.SerializeObject(
   //t,
   //typeof(T),
   //new JsonSerializerSettings()
   //{
   //    TypeNameHandling = TypeNameHandling.Auto,
-  //    Formatting = Formatting.Indented
+  //    Formatting = Formatting.Indented,
   //});
             await fileSystem.File.WriteAllTextAsync(AppendType(typeof(T)),data);
             return data.Length;
