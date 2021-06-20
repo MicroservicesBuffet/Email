@@ -54,6 +54,11 @@ jobs:
         cd EmailMS
         cd SenderEmail
         dotnet publish -c Release -o myapp 
+        dir myapp 
+        cd ..
+        copy-item -Path ".\SimpleSMTP\bin\Release\net5.0\" -Destination ".\SenderEmail\myapp\wwwroot\plugins\smtpProviders\SimpleSMTP\" -Recurse -Force
+        copy-item -Path ".\EmailSmtpClientGmail\bin\Release\net5.0\" -Destination ".\SenderEmail\myapp\wwwroot\plugins\smtpProviders\EmailSmtpClientGmail\" -Recurse -Force
+
   
     # - name: Test
     #  run: dotnet test --no-build --verbosity normal
