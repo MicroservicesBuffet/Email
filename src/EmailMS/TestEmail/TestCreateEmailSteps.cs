@@ -1,4 +1,5 @@
 ﻿using ConfigureMS;
+using EmailConfigurator;
 using EmailSmtpClientGmail;
 using LightBDD.Framework;
 using SimpleSMTP;
@@ -15,7 +16,7 @@ namespace TestEmail
 {
     public partial class TestCreateEmail
     {
-        EmailSmtpClientMS ms;
+        IEmailSmtpClient ms;
         SmtpClient client;
         string pwd;
         private void Given_A_SimpleEmail_SMTP()
@@ -35,9 +36,11 @@ namespace TestEmail
         }
         private void Given_A_GMAIL_SMTP_With_Hidden_Credentials()
         {
-            StepExecution.Current.Comment("requirement :if network security, goto https://myaccount.google.com/security, find lesser");
+            //StepExecution.Current.Comment("requirement :if network security, goto https://myaccount.google.com/security, find lesser");
             var ms1 = new EmailSmtpClientMS_Gmail();
-            ms1.UserName = "ignat.andrei";
+            ms1.UserName = "0aacd63f944ae7";
+            ms1.Host = "smtp.mailtrap.io";
+            ms1.Port = 2525;
             ms1.Password = pwd;
             ms = ms1;                     
         }

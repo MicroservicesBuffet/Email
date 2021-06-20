@@ -6,6 +6,7 @@ namespace EmailConfigurator
 {
     public interface IEmailSmtpClient: IData
     {
+        public string Host { get; set; }
         SmtpClient Client();   
     }
 }

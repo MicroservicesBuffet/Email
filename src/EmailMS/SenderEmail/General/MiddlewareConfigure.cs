@@ -30,7 +30,7 @@ namespace SenderEmail.General
                 await foreach (var item in config.StartFinding(pluginsFolder))
                 {
                     //ModelState.AddModelError(item.MemberNames.FirstOrDefault() ?? "error", item.ErrorMessage);
-                }
+                } 
                 await config.LoadData(data);
             }
             catch

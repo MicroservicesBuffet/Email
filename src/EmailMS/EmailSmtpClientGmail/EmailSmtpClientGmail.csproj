@@ -8,5 +8,15 @@
     <ProjectReference Include="..\EmailConfigurator\EmailConfigurator.csproj" />
     <ProjectReference Include="..\SimpleSMTP\SimpleSMTP.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <AdditionalFiles Include="../ClassToDictionary.txt" />
+    <PackageReference Include="AOPMethodsCommon" Version="2021.6.11.907" />
+    <PackageReference Include="AOPMethodsGenerator" Version="2021.6.11.907" />
+
+  </ItemGroup>
+  <PropertyGroup>
+    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+    <CompilerGeneratedFilesOutputPath>$(BaseIntermediateOutputPath)Generated</CompilerGeneratedFilesOutputPath>
+  </PropertyGroup>
 
 </Project>

@@ -13,7 +13,7 @@ namespace TestEmail
     public partial class TestCreateEmail: FeatureFixture
     {
         [Scenario]
-        [ScenarioCategory("Gmail")]
+        [ScenarioCategory("MailTrap")]
         [Trait("RealTest", "1")]
         public async void TestSendEmailGmail()
         {

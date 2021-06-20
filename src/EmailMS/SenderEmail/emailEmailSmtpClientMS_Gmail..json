@@ -1,0 +1,10 @@
+{
+  "Host": "smtp.mailtrap.io",
+  "Port": 2525,
+  "UserName": "0aacd63f944ae7",
+  "Password": "f8a159953cd473",
+  "Name": "test",
+  "From": "ignatandrei@yahoo.com",
+  "Type": "EmailSmtpClientMS_Gmail",
+  "Description": "EmailSmtpClientMS_Gmail smtp.mailtrap.io:2525 0aacd63f944ae7"
+}
