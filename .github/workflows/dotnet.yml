@@ -42,6 +42,8 @@ jobs:
         dotnet build --configuration Release
 
     - name: test
+      env: # Or as an environment variable
+        PWDGMAIL: ${{ secrets.PWDGMAIL }}
       run: |
         cd src
         cd EmailMS
