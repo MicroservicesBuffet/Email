@@ -46,7 +46,8 @@ jobs:
         cd src
         cd EmailMS
         start dotnet smtp4dev
-        dotnet test --filter "RealTest=0"
+        dotnet test --filter "RealTest=0"      
+        dotnet test 
 
     - name: dotnet publish
       run: |
