@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using SenderEmail.General;
 using System;
 using System.Collections.Generic;
@@ -32,7 +33,11 @@ namespace SenderEmail
             services.AddSingleton<IRepoMS>(s => new RepoMSFile("email.json", s.GetRequiredService<IFileSystem>()));
             services.AddSingleton<IStartConfigurationMS, ConfigureEmail>();
             services.AddControllersWithViews();
-            
+            services.AddApiVersioning();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "EmailSender", Version = "v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,7 +53,11 @@ namespace SenderEmail
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
             app.UseMiddleware<MiddlewareConfigure>();
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SkinnyControllerTest v1"));
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
