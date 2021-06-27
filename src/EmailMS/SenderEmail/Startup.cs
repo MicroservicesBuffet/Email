@@ -1,3 +1,4 @@
+using AMSWebAPI;
 using ConfigureMS;
 using EmailConfigurator;
 using Microsoft.AspNetCore.Builder;
@@ -73,6 +74,8 @@ namespace SenderEmail
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+                endpoints.UseAMS();
             });
             app.UseBlockly();
 
