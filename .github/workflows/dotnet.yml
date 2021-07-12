@@ -51,7 +51,34 @@ jobs:
         dotnet test --filter "RealTest=0"      
         dotnet test 
 
-    - name: dotnet publish
+    - name: dotnet publish artifacts
+      run: |
+        cd src
+        cd EmailMS
+        cd SenderEmail
+        dotnet publish -c Release -o myappArtifact  --self-contained  -p:PublishTrimmed=true
+        dir myapp 
+        cd ..
+        copy-item -Path ".\SimpleSMTP\bin\Release\net5.0\" -Destination ".\SenderEmail\myapp\wwwroot\plugins\smtpProviders\SimpleSMTP\" -Recurse -Force
+        copy-item -Path ".\EmailSmtpClientGmail\bin\Release\net5.0\" -Destination ".\SenderEmail\myapp\wwwroot\plugins\smtpProviders\EmailSmtpClientGmail\" -Recurse -Force
+
+  
+    - name: 'Upload Artifact'
+      uses: actions/upload-artifact@v2
+      with:
+        name: Email_Win64
+        path: .\src\EmailMS\SenderEmail\myappArtifact
+    #- name: Test
+    #  run: dotnet test --no-build --verbosity normal
+
+    - name: 'Delete Artifact'
+      run: |
+        cd src
+        cd EmailMS
+        cd SenderEmail
+        rmdir myappArtifact /S /Q
+
+    - name: dotnet publish for azure
       run: |
         cd src
         cd EmailMS
@@ -61,15 +88,6 @@ jobs:
         cd ..
         copy-item -Path ".\SimpleSMTP\bin\Release\net5.0\" -Destination ".\SenderEmail\myapp\wwwroot\plugins\smtpProviders\SimpleSMTP\" -Recurse -Force
         copy-item -Path ".\EmailSmtpClientGmail\bin\Release\net5.0\" -Destination ".\SenderEmail\myapp\wwwroot\plugins\smtpProviders\EmailSmtpClientGmail\" -Recurse -Force
-  
-    - name: 'Upload Artifact'
-      uses: actions/upload-artifact@v2
-      with:
-        name: Email_Win64
-        path: .\src\EmailMS\SenderEmail\myapp
-    #- name: Test
-    #  run: dotnet test --no-build --verbosity normal
-
   # Deploy to Azure Web apps
     - name: 'Run Azure webapp deploy action using publish profile credentials'
       uses: azure/webapps-deploy@v2
