@@ -56,7 +56,7 @@ jobs:
         cd src
         cd EmailMS
         cd SenderEmail
-        dotnet publish -r win-x64 -c Release -o myappArtifact  --self-contained true -p:PublishTrimmed=true -p:PublishSingleFile=true
+        dotnet publish -r win-x64 -c Release -o myappArtifact  --self-contained true -p:PublishTrimmed=false -p:PublishSingleFile=true
         dir myappArtifact 
         cd ..
         copy-item -Path ".\SimpleSMTP\bin\Release\net5.0\" -Destination ".\SenderEmail\myappArtifact\wwwroot\plugins\smtpProviders\SimpleSMTP\" -Recurse -Force
