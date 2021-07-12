@@ -76,7 +76,7 @@ jobs:
         cd src
         cd EmailMS
         cd SenderEmail
-        rmdir myappArtifact /S /Q
+        Remove-Item -Recurse -Force myappArtifact 
 
     - name: dotnet publish for azure
       run: |
