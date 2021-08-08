@@ -19,10 +19,8 @@ namespace EmailConfigurator
     
     public class ConfigureEmail : IStartConfigurationMS, ISaveAndLoadData, IDisposable
     {
-        public ConfigureEmail()
+        public ConfigureEmail():this(new FileSystem())
         {
-            this.fileSystem = new FileSystem();
-            this.Name = "constructed";
         }
         public ConfigureEmail(IFileSystem fileSystem )
         {
