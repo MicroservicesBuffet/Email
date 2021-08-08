@@ -16,16 +16,29 @@ using McMaster.NETCore.Plugins;
 namespace EmailConfigurator
 {
 
-    
-    public class ConfigureEmail : IStartConfigurationMS, ISaveAndLoadData, IDisposable
+    public class ConfigureEmail  : ConfigurePlugins<IEmailSmtpClient>
     {
-        public ConfigureEmail():this(new FileSystem())
+        public ConfigureEmail() : base()
         {
         }
-        public ConfigureEmail(IFileSystem fileSystem )
+        public ConfigureEmail(IFileSystem fileSystem):base(fileSystem)
+        {
+            Name = "ConfigureEmail";
+            pluginFolder = smtpProvidersFolder;
+        }
+        public const string smtpProvidersFolder = "smtpProviders";
+    }
+    public class ConfigurePlugins<T> : IStartConfigurationMS, ISaveAndLoadData, IDisposable
+        where T: IData
+    {
+        protected Type GenericType;
+        public ConfigurePlugins():this(new FileSystem())
+        {
+        }
+        public ConfigurePlugins(IFileSystem fileSystem )
         {
             this.fileSystem = fileSystem; 
-            this.Name = "ConfigureEmail";
+            GenericType = typeof(T);
         }
         public DateTime? ConfiguredAt { get; set; }
         //public Task<bool> IsComplete()
@@ -41,16 +54,16 @@ namespace EmailConfigurator
         {
             throw new NotImplementedException();
         }
-        public const string smtpProvidersFolder = "smtpProviders";
+        public string pluginFolder { get; init; }
         private IFileSystem fileSystem;
 
-        public string Name { get; }
+        public string Name { get; protected set; }
 
         public async IAsyncEnumerable<ValidationResult> StartFinding(string baseDir)
         {
             await Task.Delay(1000);
             //TODO: make this configurable  - load the path from a database instead of folders
-            var emailProviderPath = fileSystem.Path.Combine(baseDir, smtpProvidersFolder);
+            var emailProviderPath = fileSystem.Path.Combine(baseDir, pluginFolder);
             if (!fileSystem.Directory.Exists(emailProviderPath))
             {
                 yield return new ValidationResult($"folder {emailProviderPath} for smtp providers does not exists",new[]{
@@ -83,8 +96,8 @@ namespace EmailConfigurator
         
         public async Task<int> ChooseConfiguration(string name, string value)
         {
-            if (!string.Equals(name, smtpProvidersFolder, StringComparison.CurrentCultureIgnoreCase))
-                throw new ArgumentException($"you can configure just {smtpProvidersFolder}");
+            if (!string.Equals(name, pluginFolder, StringComparison.CurrentCultureIgnoreCase))
+                throw new ArgumentException($"you can configure just {pluginFolder}");
             switch(MainProviders?.Length)
             {
                 case null:
@@ -109,7 +122,7 @@ namespace EmailConfigurator
             if (c.Length >0)
                 throw new ValidationException(c[0].ErrorMessage);
 
-            await repo.SaveData<ConfigureEmail>(this);
+            await repo.SaveData(this);
             await this.ChoosenProviderData.SaveData(repo);
             //await repo.SaveData<IEmailSmtpClient>(this.ChoosenProviderData as IEmailSmtpClient);
             //var data = JsonSerializer.Serialize(this);
@@ -123,7 +136,7 @@ namespace EmailConfigurator
         private PluginLoader loader;
         private Task<int> LoadConfiguration()
         {
-            var folder = fileSystem.Path.Combine(BaseFolder, smtpProvidersFolder, ChoosenMainProvider);
+            var folder = fileSystem.Path.Combine(BaseFolder, pluginFolder, ChoosenMainProvider);
             var nameDll = fileSystem.Path.Combine(folder, $"{ChoosenMainProvider}.dll");
             if (!fileSystem.File.Exists(nameDll))
                 throw new ArgumentException($"dll {nameDll} does not exists");
@@ -131,17 +144,17 @@ namespace EmailConfigurator
             loader?.Dispose();
             loader = PluginLoader.CreateFromAssemblyFile(
     assemblyFile: nameDll,
-    sharedTypes: new[] { typeof(IEmailSmtpClient) },
+    sharedTypes: new[] { GenericType },
     isUnloadable: true);
             var typeLoaded = loader
                 .LoadDefaultAssembly()
                 .GetTypes()
-                 .Where(t => typeof(IEmailSmtpClient).IsAssignableFrom(t) && !t.IsAbstract)
+                 .Where(t => GenericType.IsAssignableFrom(t) && !t.IsAbstract)
                  .FirstOrDefault();
             if (typeLoaded == null)
-                throw new ArgumentException($"cannot find {nameof(IEmailSmtpClient)} in {nameDll}");
+                throw new ArgumentException($"cannot find {GenericType.Name} in {nameDll}");
 
-            ChoosenProviderData = (IEmailSmtpClient)Activator.CreateInstance(typeLoaded);
+            ChoosenProviderData = (IData) Activator.CreateInstance(typeLoaded) ;
             return Task.FromResult(1);
         }
 
@@ -160,7 +173,7 @@ namespace EmailConfigurator
             {
                 throw new ArgumentException(item.ErrorMessage, item.MemberNames?.FirstOrDefault());
             }
-            await this.ChooseConfiguration(smtpProvidersFolder, ChoosenMainProvider);
+            await this.ChooseConfiguration(pluginFolder, ChoosenMainProvider);
             await this.ChoosenProviderData.LoadData(repo);
             return 1;
 
