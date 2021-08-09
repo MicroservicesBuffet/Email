@@ -122,7 +122,7 @@ namespace EmailConfigurator
             if (c.Length >0)
                 throw new ValidationException(c[0].ErrorMessage);
 
-            await repo.SaveData(this);
+            await repo.SaveData<ConfigurePlugins<T>>(this);
             await this.ChoosenProviderData.SaveData(repo);
             //await repo.SaveData<IEmailSmtpClient>(this.ChoosenProviderData as IEmailSmtpClient);
             //var data = JsonSerializer.Serialize(this);
@@ -160,7 +160,7 @@ namespace EmailConfigurator
 
         public async Task<int> LoadData(IRepoMS repo)
         {
-            var me = await repo.GetItem<ConfigureEmail>();
+            var me = await repo.GetItem<ConfigurePlugins<T>>();
             me.fileSystem = this.fileSystem;
             //todo: do not use reflection
             //var name = this.GetType().Name;
