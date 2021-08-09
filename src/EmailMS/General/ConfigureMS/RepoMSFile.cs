@@ -22,12 +22,34 @@ namespace ConfigureMS
             this.fileSystem = fileSystem;
             this.lastDot = fileName.LastIndexOf("."); 
         }
+        public static string GetFriendlyName(Type type)
+        {
+            string friendlyName = type.Name;
+            if (type.IsGenericType)
+            {
+                int iBacktick = friendlyName.IndexOf('`');
+                if (iBacktick > 0)
+                {
+                    friendlyName = friendlyName.Remove(iBacktick);
+                }
+                friendlyName += "<";
+                Type[] typeParameters = type.GetGenericArguments();
+                for (int i = 0; i < typeParameters.Length; ++i)
+                {
+                    string typeParamName = GetFriendlyName(typeParameters[i]);
+                    friendlyName += (i == 0 ? typeParamName : "," + typeParamName);
+                }
+                friendlyName += ">";
+            }
+
+            return friendlyName;
+        }
         private string AppendType(Type t)
         {
-            string fileForType = fileName + "." + t.Name;
+            string fileForType = fileName + "." + GetFriendlyName( t);
             if (lastDot > 0)
-                fileForType = fileName.Substring(0, lastDot) + t.Name + "." + fileName.Substring(lastDot);
-            return fileForType;
+                fileForType = fileName.Substring(0, lastDot) + GetFriendlyName(t) + "." + fileName.Substring(lastDot);
+            return fileForType.Replace("<","_").Replace(">","_");
         }
         public async Task<T> GetItem<T>()
         {

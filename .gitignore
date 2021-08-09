@@ -352,3 +352,4 @@ src/EmailMS/SenderEmail/wwwroot/plugins/smtpProviders/*
 src/EmailMS/SenderEmail/email.json
 src/EmailMS/SenderEmail/emailConfigureEmail..json
 src/EmailMS/SenderEmail/emailEmailSmtpClientMS..json
+src/EmailMS/SenderEmail/emailConfigurePlugins_IEmailSmtpClient_..json
