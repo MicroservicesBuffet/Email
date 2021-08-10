@@ -32,7 +32,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EmailConfigurator\EmailConfigurator.csproj" />
-    <ProjectReference Include="..\General\ConfigureMS\ConfigureMS.csproj" />
   </ItemGroup>
 
   <ItemGroup>

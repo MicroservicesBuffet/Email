@@ -1,0 +1,3 @@
+[submodule "src/Configur"]
+	path = src/Configur
+	url = https://github.com/MicroservicesBuffet/Configur
