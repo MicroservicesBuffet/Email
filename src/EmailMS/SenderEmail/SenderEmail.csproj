@@ -16,17 +16,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="3.10.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
     <PackageReference Include="AOPMethodsCommon" Version="2021.6.11.907" />
-    <PackageReference Include="NetCore2Blockly" Version="1.1.2021.14839170" />
+    <PackageReference Include="NetCore2Blockly" Version="1.1.2021.15334460" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
-
-   <PackageReference Include="AMSWebAPI" Version="2021.6.27.452" />
-    <PackageReference Include="AMS_Base" Version="2021.6.27.452" />
-    <PackageReference Include="RSCG_AMS" Version="2021.6.27.452" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
+    <PackageReference Include="AMSWebAPI" Version="2021.6.27.655" />
+    <PackageReference Include="AMS_Base" Version="2021.6.27.655" />
+    <PackageReference Include="RSCG_AMS" Version="2021.6.27.655" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
+	<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.10.0" />
+	<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="3.10.0" />
+	<PackageReference Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="3.10.0" />
  
   </ItemGroup>
 
